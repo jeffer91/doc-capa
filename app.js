@@ -1,7 +1,5 @@
-const STORAGE_KEY = 'doc-capa-state-v1';
+const STORAGE_KEY = 'doc-capa-state-v2';
 const { jsPDF } = window.jspdf || {};
-
-const state = loadState();
 
 const INTRO = {
   justification: [
@@ -58,386 +56,156 @@ const LEGAL = {
     'El presente informe se fundamenta en las siguientes disposiciones legales:'
   ],
   blocks: [
-    {
-      title: 'Constitución de la República del Ecuador',
-      items: [
-        'el artículo 26 establece que la educación es un derecho de las personas a lo largo de su vida y un deber ineludible del Estado, constituyéndose en un área prioritaria de la política pública y de la inversión estatal.',
-        'el artículo 27 determina que la educación se centrará en el ser humano y garantizará su desarrollo integral, promoviendo capacidades, habilidades y conocimientos pertinentes para la vida social y productiva.',
-        'el artículo 350 señala que el sistema de educación superior tiene como finalidad la formación académica y profesional con visión científica y humanista, la investigación y la innovación, bajo criterios de calidad, pertinencia y responsabilidad social.'
-      ]
-    },
-    {
-      title: 'Ley Orgánica de Educación Superior (LOES)',
-      items: [
-        'el artículo 3 establece como fines de la educación superior el desarrollo del pensamiento crítico, la formación académica y profesional de calidad y la generación de conocimiento pertinente para el desarrollo del país.',
-        'el artículo 12 dispone que las instituciones de educación superior deben garantizar procesos académicos de calidad, sustentados en mecanismos de evaluación y mejora continua.',
-        'el artículo 13, literal a), establece como una de las funciones del sistema de educación superior asegurar la calidad académica a través de procesos sistemáticos de evaluación y fortalecimiento institucional.',
-        'el artículo 155 determina que las instituciones de educación superior promoverán la formación, capacitación y actualización permanente del personal académico, en coherencia con los objetivos institucionales y las necesidades del entorno educativo y profesional.'
-      ]
-    },
-    {
-      title: 'Reglamentos del Sistema de Educación Superior',
-      items: [
-        'los reglamentos derivados de la Ley Orgánica de Educación Superior disponen que las instituciones implementen procesos de planificación académica sustentados en diagnósticos técnicos, que permitan identificar brechas formativas y necesidades de fortalecimiento del desempeño docente.',
-        'dichos reglamentos enfatizan la responsabilidad institucional de documentar los procesos de análisis y toma de decisiones relacionados con la mejora continua de la docencia.'
-      ]
-    },
-    {
-      title: 'Modelo de Evaluación Externa del Consejo de Aseguramiento de la Calidad de la Educación Superior (CACES)',
-      items: [
-        'el modelo de evaluación externa del CACES establece criterios e indicadores orientados a verificar la existencia de mecanismos institucionales para la identificación, análisis y priorización de necesidades de capacitación docente.',
-        'estos criterios exigen que las instituciones de educación superior cuenten con evidencia documentada que demuestre la planificación académica basada en diagnósticos y análisis sistemáticos del desempeño docente.',
-        'el modelo de evaluación promueve la mejora continua de la docencia como un eje fundamental de la calidad educativa.'
-      ]
-    },
-    {
-      title: 'Plan Estratégico de Desarrollo Institucional (PEDI) del ITSQMET',
-      items: [
-        'el Plan Estratégico de Desarrollo Institucional del ITSQMET define como uno de sus ejes estratégicos el fortalecimiento de la calidad académica y el desarrollo permanente del cuerpo docente.',
-        'el PEDI establece la necesidad de alinear las decisiones académicas con procesos de análisis y diagnóstico que permitan identificar oportunidades de mejora en la función sustantiva de docencia.'
-      ]
-    },
-    {
-      title: 'Plan Operativo Anual (POA) del ITSQMET',
-      items: [
-        'el Plan Operativo Anual constituye el instrumento de planificación institucional que requiere insumos técnicos previos, tales como diagnósticos de necesidades, para la definición responsable de acciones, metas e indicadores relacionados con la capacitación docente.'
-      ]
-    },
-    {
-      title: 'Manual de Procesos Académicos del ITSQMET',
-      items: [
-        'el Manual de Procesos Académicos regula los procedimientos de planificación, seguimiento y evaluación del proceso docente, estableciendo la obligatoriedad de identificar de manera sistemática las brechas formativas del personal académico.',
-        'dicho manual dispone que los procesos de capacitación y fortalecimiento docente deben sustentarse en diagnósticos previos debidamente documentados.'
-      ]
-    }
+    { title: 'Constitución de la República del Ecuador', items: [
+      'el artículo 26 establece que la educación es un derecho de las personas a lo largo de su vida y un deber ineludible del Estado, constituyéndose en un área prioritaria de la política pública y de la inversión estatal.',
+      'el artículo 27 determina que la educación se centrará en el ser humano y garantizará su desarrollo integral, promoviendo capacidades, habilidades y conocimientos pertinentes para la vida social y productiva.',
+      'el artículo 350 señala que el sistema de educación superior tiene como finalidad la formación académica y profesional con visión científica y humanista, la investigación y la innovación, bajo criterios de calidad, pertinencia y responsabilidad social.'
+    ]},
+    { title: 'Ley Orgánica de Educación Superior (LOES)', items: [
+      'el artículo 3 establece como fines de la educación superior el desarrollo del pensamiento crítico, la formación académica y profesional de calidad y la generación de conocimiento pertinente para el desarrollo del país.',
+      'el artículo 12 dispone que las instituciones de educación superior deben garantizar procesos académicos de calidad, sustentados en mecanismos de evaluación y mejora continua.',
+      'el artículo 13, literal a), establece como una de las funciones del sistema de educación superior asegurar la calidad académica a través de procesos sistemáticos de evaluación y fortalecimiento institucional.',
+      'el artículo 155 determina que las instituciones de educación superior promoverán la formación, capacitación y actualización permanente del personal académico, en coherencia con los objetivos institucionales y las necesidades del entorno educativo y profesional.'
+    ]},
+    { title: 'Reglamentos del Sistema de Educación Superior', items: [
+      'los reglamentos derivados de la Ley Orgánica de Educación Superior disponen que las instituciones implementen procesos de planificación académica sustentados en diagnósticos técnicos, que permitan identificar brechas formativas y necesidades de fortalecimiento del desempeño docente.',
+      'dichos reglamentos enfatizan la responsabilidad institucional de documentar los procesos de análisis y toma de decisiones relacionados con la mejora continua de la docencia.'
+    ]},
+    { title: 'Modelo de Evaluación Externa del Consejo de Aseguramiento de la Calidad de la Educación Superior (CACES)', items: [
+      'el modelo de evaluación externa del CACES establece criterios e indicadores orientados a verificar la existencia de mecanismos institucionales para la identificación, análisis y priorización de necesidades de capacitación docente.',
+      'estos criterios exigen que las instituciones de educación superior cuenten con evidencia documentada que demuestre la planificación académica basada en diagnósticos y análisis sistemáticos del desempeño docente.',
+      'el modelo de evaluación promueve la mejora continua de la docencia como un eje fundamental de la calidad educativa.'
+    ]},
+    { title: 'Plan Estratégico de Desarrollo Institucional (PEDI) del ITSQMET', items: [
+      'el Plan Estratégico de Desarrollo Institucional del ITSQMET define como uno de sus ejes estratégicos el fortalecimiento de la calidad académica y el desarrollo permanente del cuerpo docente.',
+      'el PEDI establece la necesidad de alinear las decisiones académicas con procesos de análisis y diagnóstico que permitan identificar oportunidades de mejora en la función sustantiva de docencia.'
+    ]},
+    { title: 'Plan Operativo Anual (POA) del ITSQMET', items: [
+      'el Plan Operativo Anual constituye el instrumento de planificación institucional que requiere insumos técnicos previos, tales como diagnósticos de necesidades, para la definición responsable de acciones, metas e indicadores relacionados con la capacitación docente.'
+    ]},
+    { title: 'Manual de Procesos Académicos del ITSQMET', items: [
+      'el Manual de Procesos Académicos regula los procedimientos de planificación, seguimiento y evaluación del proceso docente, estableciendo la obligatoriedad de identificar de manera sistemática las brechas formativas del personal académico.',
+      'dicho manual dispone que los procesos de capacitación y fortalecimiento docente deben sustentarse en diagnósticos previos debidamente documentados.'
+    ]}
   ],
   closing: 'En virtud del marco legal expuesto, el presente informe se configura como un documento técnico–diagnóstico, orientado exclusivamente a la identificación, análisis y priorización de necesidades de capacitación docente, constituyéndose en un insumo previo y obligatorio para la planificación institucional, sin generar compromisos de ejecución, asignación presupuestaria ni programación operativa.'
 };
 
-function defaultState(){
-  return {
-    period: null,
-    careers: [],
-    diagnosedCareers: [],
-    logo: null,
-    dncStatus: 'draft',
-    legalSnapshot: null
-  };
-}
-
-function loadState(){
-  try { return { ...defaultState(), ...(JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}) }; }
-  catch { return defaultState(); }
-}
-
-function saveState(){
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  renderAll();
-}
-
-function monthLabel(value){
-  if(!value) return '';
-  const [year,month] = value.split('-').map(Number);
-  const names = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  return `${names[month-1]} ${year}`;
-}
-
-function periodLabel(){
-  if(!state.period) return 'Sin período activo';
-  return `${monthLabel(state.period.start)} – ${monthLabel(state.period.end)}`;
-}
-
-function normalized(text){
-  return String(text ?? '').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-}
-
-function activeCareers(){ return state.careers.filter(c => c.active !== false); }
-function diagnosedSet(){ return new Set(state.diagnosedCareers.map(normalized)); }
-function diagnosedActiveCareers(){
-  const set = diagnosedSet();
-  return activeCareers().filter(c => set.has(normalized(c.name)));
-}
-
-function coverageInfo(){
-  const total = activeCareers().length;
-  const covered = diagnosedActiveCareers().length;
-  if(!total) return { total:0, covered:0, pct:null, status:'pending', phrase:'las carreras incluidas en el proceso de detección de necesidades de capacitación' };
-  if(!state.diagnosedCareers.length) return { total, covered:0, pct:0, status:'pending', phrase:'las carreras incluidas en el proceso de detección de necesidades de capacitación' };
-  const pct = Math.round((covered/total)*100);
-  if(covered === total) return { total, covered, pct, status:'complete', phrase:'las carreras ofertadas por el ITSQMET' };
-  return { total, covered, pct, status:'partial', phrase:'las carreras incluidas en el proceso de detección de necesidades de capacitación correspondiente al período' };
-}
-
-function introScopeParagraphs(){
-  const period = state.period ? periodLabel() : '[PERÍODO ACADÉMICO PENDIENTE]';
-  const coverage = coverageInfo();
-  return [
-    `El presente informe de detección de necesidades de capacitación docente se desarrolla para el período académico ${period}, considerado un momento estratégico dentro del ciclo de planificación, seguimiento y mejora continua de la docencia en el Instituto Superior Tecnológico Quito Metropolitano (ITSQMET). Este período permite analizar de manera pertinente las condiciones reales del ejercicio docente, las prácticas pedagógicas implementadas y las brechas de capacitación evidenciadas durante el desarrollo académico institucional.`,
-    'El alcance temporal del diagnóstico no se limita a una revisión puntual, sino que recoge información acumulada y validada a partir de la experiencia docente inmediata, las observaciones académicas realizadas durante el desarrollo de las asignaturas y la reflexión pedagógica generada en los espacios de coordinación y trabajo colegiado. De esta manera, la detección responde a necesidades actuales y contextualizadas, evitando enfoques aislados o desarticulados de la realidad institucional.',
-    `En cuanto a la cobertura, el informe abarca ${coverage.phrase}, considerando a los docentes y coordinadores de carrera como actores clave en la identificación de necesidades de capacitación. La detección se realiza exclusivamente desde la función sustantiva de docencia, enfocándose en los procesos de planificación académica, desarrollo de clases, evaluación del aprendizaje, uso de metodologías y fortalecimiento de competencias pedagógicas vinculadas al perfil de egreso de cada carrera.`,
-    'La cobertura del diagnóstico se estructura a nivel de carrera, permitiendo identificar múltiples necesidades de capacitación docente, sustentadas en evidencia cualitativa y cuantitativa. A partir de este análisis, se prioriza una necesidad ganadora por carrera, definida como aquella que presenta mayor impacto en la mejora de la docencia y mayor recurrencia según los criterios establecidos. Asimismo, el informe contempla la agrupación de carreras que comparten una misma necesidad de capacitación, lo que posibilita una visión institucional integrada y coherente de las brechas identificadas.',
-    'Este enfoque de cobertura permite, además, identificar tendencias transversales, necesidades recurrentes y áreas críticas comunes, sin perder la especificidad disciplinar de cada carrera. De esta forma, el informe aporta información estratégica tanto a nivel particular como institucional, fortaleciendo los procesos de toma de decisiones académicas.',
-    'Es importante precisar que el alcance del presente documento se circunscribe estrictamente a la fase de detección y análisis de necesidades, constituyéndose como un insumo técnico previo para la planificación institucional. En consecuencia, no contempla la definición de programas de capacitación, cronogramas, modalidades, cargas horarias ni estrategias de ejecución, los cuales serán desarrollados posteriormente en el Plan de Capacitación Docente, una vez validados los resultados de esta detección.'
-  ];
-}
-
-function escapeHtml(value){
-  return String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[c]));
-}
-
-function renderIntroHtml(){
-  let html = '<h2>1. Introducción</h2><h3>1.1. Justificación del Informe</h3>';
-  html += INTRO.justification.map(p=>`<p>${escapeHtml(p)}</p>`).join('');
-  html += '<h3>1.2. Alcance Temporal y Cobertura</h3>' + introScopeParagraphs().map(p=>`<p>${escapeHtml(p)}</p>`).join('');
-  html += '<h3>1.3. Contexto Institucional y Transformaciones Educativas</h3>' + INTRO.contextIntro.map(p=>`<p>${escapeHtml(p)}</p>`).join('');
-  INTRO.transformations.forEach(([title,pars])=>{ html += `<h4>${escapeHtml(title)}</h4>${pars.map(p=>`<p>${escapeHtml(p)}</p>`).join('')}`; });
-  html += '<h3>1.4. Objetivos del Diagnóstico</h3>' + INTRO.objectivesIntro.map(p=>`<p>${escapeHtml(p)}</p>`).join('');
-  html += `<h4>1.4.1. Objetivo General</h4><p>${escapeHtml(INTRO.generalObjective)}</p>`;
-  html += '<h4>1.4.2. Objetivos Específicos</h4><ol class="alpha" type="a">' + INTRO.specificObjectives.map(x=>`<li>${escapeHtml(x)}</li>`).join('') + '</ol>';
-  return html;
-}
-
-function renderLegalHtml(){
-  let html = '<h2>2. Base Legal</h2>' + LEGAL.intro.map(p=>`<p>${escapeHtml(p)}</p>`).join('');
-  LEGAL.blocks.forEach(block=>{
-    html += `<div class="legal-block"><div class="legal-block-title">${escapeHtml(block.title)}</div>`;
-    html += block.items.map(item=>`<div class="considerando"><em>Que,</em><span>${escapeHtml(item)}</span></div>`).join('');
-    html += '</div>';
-  });
-  html += `<p>${escapeHtml(LEGAL.closing)}</p>`;
-  return html;
-}
-
-function renderAll(){
-  document.getElementById('activePeriodChip').textContent = state.period ? periodLabel() : 'Sin período activo';
-  document.getElementById('homePeriodName').textContent = state.period ? periodLabel() : 'No configurado';
-  document.getElementById('introPeriod').textContent = state.period ? periodLabel() : 'Pendiente';
-
-  const active = activeCareers();
-  const covered = diagnosedActiveCareers();
-  const coverage = coverageInfo();
-  document.getElementById('homeCareersCount').textContent = active.length;
-  document.getElementById('homeDiagnosedCount').textContent = covered.length;
-  document.getElementById('homeCoverage').textContent = coverage.pct == null ? '—' : `${coverage.pct}%`;
-  document.getElementById('introActiveCareers').textContent = active.length;
-  document.getElementById('introCoverage').textContent = coverage.status === 'complete' ? 'Completa' : coverage.status === 'partial' ? 'Parcial' : 'Pendiente';
-
-  document.getElementById('periodStatusDot').className = `dot${state.period ? ' ok':''}`;
-  document.getElementById('periodStatusText').textContent = state.period ? 'Período configurado' : 'Período pendiente';
-  document.getElementById('coverageStatusDot').className = `dot${coverage.status === 'complete' ? ' ok':''}`;
-  document.getElementById('coverageStatusText').textContent = coverage.status === 'complete' ? 'Cobertura completa' : coverage.status === 'partial' ? `Cobertura parcial (${coverage.covered}/${coverage.total})` : 'Cobertura pendiente';
-
-  if(state.period){
-    document.getElementById('periodStart').value = state.period.start;
-    document.getElementById('periodEnd').value = state.period.end;
-    document.getElementById('periodSummary').textContent = `Período activo: ${periodLabel()}`;
+const ALIGNMENT = {
+  intro: [
+    'El presente apartado establece la alineación del informe de detección de necesidades de capacitación docente con los instrumentos de planificación y gestión académica del Instituto Superior Tecnológico Quito Metropolitano (ITSQMET). Su desarrollo permite evidenciar que el diagnóstico no constituye un ejercicio aislado, sino que se integra de manera coherente al sistema institucional de planificación estratégica, operativa y de aseguramiento de la calidad.',
+    'La alineación institucional garantiza que las necesidades de capacitación identificadas respondan a los objetivos estratégicos, a los procesos académicos vigentes y a los requerimientos del modelo de evaluación externa, asegurando coherencia entre diagnóstico, planificación y mejora continua. En este marco, el análisis que se presenta a continuación respalda técnicamente la toma de decisiones académicas posteriores, sin anticipar acciones de ejecución, en concordancia con el alcance diagnóstico definido para el presente informe.'
+  ],
+  pedi: {
+    title: '3.1. Vinculación con el Plan Estratégico de Desarrollo Institucional (PEDI)',
+    intro: (cfg) => [
+      `El presente informe de detección de necesidades de capacitación docente se vincula de manera directa y explícita con el ${cfg.pedi} del Instituto Superior Tecnológico Quito Metropolitano (ITSQMET), en tanto constituye un instrumento técnico que aporta información estratégica para la toma de decisiones académicas y el fortalecimiento de la función sustantiva de docencia.`,
+      'La relación entre este diagnóstico y el PEDI se evidencia en los siguientes aspectos:'
+    ],
+    blocks: [
+      ['A) Alineación con los objetivos estratégicos institucionales','El PEDI establece como prioridad institucional el aseguramiento de la calidad académica y la mejora continua de los procesos formativos. La detección de necesidades de capacitación docente contribuye a este objetivo al identificar, analizar y priorizar brechas formativas del cuerpo docente que inciden directamente en el desarrollo del proceso de enseñanza-aprendizaje y en el logro de los resultados de aprendizaje de las carreras.'],
+      ['B) Fortalecimiento del talento humano docente','El PEDI reconoce al talento humano como un eje estratégico para el cumplimiento de la misión institucional. En este marco, el presente diagnóstico permite identificar necesidades concretas de capacitación docente, proporcionando una base técnica que respalda futuras acciones de fortalecimiento del desempeño pedagógico, en coherencia con las demandas académicas y profesionales de cada carrera.'],
+      ['C) Sustento técnico para la planificación institucional','La detección de necesidades de capacitación docente se constituye en un insumo estratégico para la planificación institucional, al generar información validada que alimenta los procesos de planificación operativa y académica. Este enfoque garantiza que las decisiones relacionadas con la capacitación docente se fundamenten en diagnósticos previos y no en criterios aislados o circunstanciales.'],
+      ['D) Coherencia entre planificación estratégica y gestión académica','El presente informe fortalece la articulación entre la planificación estratégica definida en el PEDI y la gestión académica cotidiana, al evidenciar que el ITSQMET implementa procesos sistemáticos para identificar oportunidades de mejora en la docencia. Esta coherencia contribuye a una gestión institucional alineada y orientada a resultados.'],
+      ['E) Aporte al aseguramiento de la calidad educativa','Desde la perspectiva del aseguramiento de la calidad, la detección de necesidades de capacitación docente respalda el cumplimiento de los lineamientos estratégicos del PEDI relacionados con la mejora continua, al demostrar que la institución cuenta con mecanismos formales para analizar el desempeño docente y sustentar decisiones académicas con base en evidencia.']
+    ],
+    closing: 'El presente informe se integra al sistema de planificación estratégica del ITSQMET como un documento técnico que fortalece la implementación del PEDI, consolidando la docencia como un eje central de la calidad educativa y de la gestión académica institucional.'
+  },
+  poa: {
+    title: '3.2. Articulación con el Plan Operativo Anual (POA)',
+    intro: (cfg) => [
+      `El presente informe de detección de necesidades de capacitación docente se articula de manera directa con el ${cfg.poa} del Instituto Superior Tecnológico Quito Metropolitano (ITSQMET), en tanto constituye un insumo técnico previo y necesario para la planificación responsable de las acciones institucionales orientadas al fortalecimiento de la docencia.`,
+      'La relación entre la detección de necesidades y el POA se evidencia en los siguientes componentes:'
+    ],
+    blocks: [
+      ['A) Insumo técnico para la planificación operativa','El POA requiere información diagnóstica que permita definir acciones, metas e indicadores con base en necesidades reales y verificables. En este sentido, la detección de necesidades de capacitación docente proporciona evidencia técnica que sustenta la formulación de actividades futuras relacionadas con el fortalecimiento del desempeño docente, evitando decisiones improvisadas o desarticuladas del contexto académico.'],
+      ['B) Priorización institucional basada en evidencia','La identificación de múltiples necesidades por carrera y la priorización de una necesidad ganadora permiten orientar la planificación operativa hacia áreas de mayor impacto académico. Esta priorización facilita que el POA concentre recursos y esfuerzos en necesidades estratégicas, alineadas con los objetivos institucionales y con la mejora de la función sustantiva de docencia.'],
+      ['C) Coherencia entre diagnóstico y programación anual','La articulación entre el presente diagnóstico y el POA garantiza la coherencia entre las fases de análisis y planificación institucional. El informe de detección define el qué se requiere fortalecer en el ámbito docente, mientras que el POA, en una fase posterior, determinará el cómo, cuándo y con qué recursos, respetando la secuencia lógica de la gestión académica.'],
+      ['D) Soporte para la definición de metas e indicadores','Los resultados de la detección de necesidades de capacitación docente constituyen una base objetiva para la definición de metas operativas e indicadores de seguimiento en el POA, particularmente aquellos relacionados con el fortalecimiento de la calidad académica y el desempeño docente.'],
+      ['E) Alineación con el principio de mejora continua','La articulación con el POA refuerza el enfoque de mejora continua institucional, al integrar el diagnóstico de necesidades dentro del ciclo de planificación, ejecución y evaluación. Este enfoque permite que las acciones futuras contempladas en el POA respondan a un proceso sistemático y documentado de análisis previo.']
+    ],
+    closing: 'El presente informe se posiciona como un componente fundamental dentro del proceso de planificación operativa del ITSQMET, asegurando que el Plan Operativo Anual incorpore acciones coherentes, pertinentes y sustentadas en la detección formal de necesidades de capacitación docente, en concordancia con los objetivos estratégicos institucionales.'
+  },
+  manual: {
+    title: '3.3. Coherencia con el Manual de Procesos Académicos',
+    intro: (cfg) => [
+      `El presente informe de detección de necesidades de capacitación docente guarda coherencia directa con el ${cfg.manual}, en tanto se inserta dentro de la lógica institucional de planificación, seguimiento y mejora continua de la función sustantiva de docencia.`,
+      'El Manual de Procesos Académicos establece que las acciones relacionadas con el fortalecimiento del desempeño docente deben sustentarse en procedimientos sistemáticos, documentados y alineados a la planificación institucional. En este marco, la detección de necesidades de capacitación docente se constituye como una fase previa y obligatoria dentro del ciclo de gestión académica.',
+      'La coherencia entre el presente diagnóstico y el Manual de Procesos Académicos se evidencia en los siguientes aspectos:'
+    ],
+    blocks: [
+      ['A) Articulación con los procesos de planificación académica','El Manual de Procesos Académicos define la planificación como un proceso estructurado que debe basarse en información técnica y análisis previos. El presente informe responde a esta disposición al identificar y priorizar necesidades de capacitación docente a partir de evidencia recopilada, constituyéndose en un insumo para la planificación académica institucional.'],
+      ['B) Vinculación con el seguimiento y evaluación del proceso docente','De acuerdo con el Manual, el seguimiento y la evaluación del proceso docente requieren identificar oportunidades de mejora en la práctica pedagógica. La detección de necesidades de capacitación docente se alinea con este enfoque, al permitir reconocer brechas formativas que afectan el desarrollo del proceso de enseñanza-aprendizaje y que requieren fortalecimiento institucional.'],
+      ['C) Sustento procedimental para la mejora continua','El Manual de Procesos Académicos promueve la mejora continua como principio transversal de la gestión académica. El presente diagnóstico aporta a este principio al establecer un mecanismo formal para analizar necesidades docentes, evitando acciones reactivas y garantizando que las decisiones institucionales se fundamenten en procesos sistemáticos y verificables.'],
+      ['D) Coherencia con los roles y responsabilidades académicas','La identificación de necesidades de capacitación docente se realiza considerando el criterio de los coordinadores de carrera y la participación del cuerpo docente, en coherencia con los roles y responsabilidades definidos en el Manual de Procesos Académicos para la gestión y mejora de la docencia.'],
+      ['E) Separación clara entre diagnóstico y ejecución','El Manual de Procesos Académicos distingue las fases de análisis, planificación y ejecución. En concordancia con esta disposición, el presente informe se limita a la detección y priorización de necesidades de capacitación docente, sin definir acciones operativas, cronogramas ni recursos, los cuales serán abordados en instrumentos posteriores de planificación.']
+    ],
+    closing: 'El presente informe se integra de manera coherente al sistema de procesos académicos del ITSQMET, fortaleciendo la gestión de la docencia mediante un diagnóstico técnico que respalda la planificación institucional y contribuye al aseguramiento de la calidad académica.'
   }
+};
 
-  const tbody = document.getElementById('careersTableBody');
-  document.getElementById('careersTableCaption').textContent = `${state.careers.length} registro(s)`;
-  if(!state.careers.length){ tbody.innerHTML='<tr><td colspan="3" class="empty">Sin registros.</td></tr>'; }
-  else tbody.innerHTML = state.careers.map(c=>`<tr><td>${escapeHtml(c.code||'—')}</td><td>${escapeHtml(c.name)}</td><td>${c.active===false?'No':'Sí'}</td></tr>`).join('');
+const CACES_BLOCK = {
+  title: '3.4. Correspondencia con los Criterios del Modelo de Evaluación Externa del CACES',
+  intro: (cfg) => [
+    `La Detección de Necesidades de Capacitación Docente del Instituto Superior Tecnológico Quito Metropolitano se articula de manera directa y explícita con los criterios, subcriterios e indicadores establecidos en el ${cfg.cacesModel}, emitido por el CACES.`,
+    'Esta correspondencia garantiza que el diagnóstico no constituya un ejercicio aislado, sino una herramienta estratégica de aseguramiento interno de la calidad, orientada a la mejora continua del desempeño institucional.'
+  ],
+  sections: [
+    { heading:'A) Vinculación con el Criterio Organización', paragraphs:['El diagnóstico responde principalmente al Criterio Organización, específicamente al:','Subcriterio Planificación y Desarrollo, en tanto la detección de necesidades constituye un insumo fundamental para:'], lists:[['La planificación estratégica institucional.','La toma de decisiones informadas en materia de fortalecimiento del talento humano.','La coherencia entre diagnóstico, planificación y mejora continua.'],['Analiza de forma periódica su desempeño.','Reconoce debilidades y oportunidades de mejora.','Sustenta sus acciones futuras en información objetiva y verificable.']], bridge:'En este sentido, la identificación sistemática de brechas de capacitación permite evidenciar que la institución:' },
+    { heading:'B) Articulación con el Indicador de Aseguramiento Interno de la Calidad', paragraphs:['El proceso de detección de necesidades se alinea con el indicador de Aseguramiento Interno de la Calidad, al constituirse en un mecanismo preventivo y reflexivo que:'], lists:[['Evalúa el estado actual de las competencias docentes.','Anticipa riesgos académicos y pedagógicos.','Permite planificar acciones correctivas antes de que se evidencien impactos negativos en los resultados de aprendizaje.']], closing:'La detección, en este marco, cumple una función diagnóstica que fortalece la cultura institucional de evaluación y autorregulación.' },
+    { heading:'C) Relación con el Criterio Profesores', paragraphs:['El diagnóstico guarda correspondencia directa con el Criterio Profesores, particularmente en lo relacionado con:','Formación académica en curso y capacitación, al identificar:'], lists:[['Necesidades de actualización disciplinar.','Requerimientos de fortalecimiento pedagógico.','Demandas asociadas al uso de tecnologías educativas y procesos de innovación docente.']], closing:'Esta identificación permite que las decisiones posteriores de capacitación se encuentren fundamentadas en evidencia y no en supuestos generales.' },
+    { heading:'D) Aporte al Criterio Docencia', paragraphs:['Desde el enfoque del Criterio Docencia, la detección de necesidades contribuye indirectamente al fortalecimiento de:'], lists:[['La calidad de los programas de estudio.','El seguimiento, control y evaluación del proceso docente.','El acompañamiento pedagógico a estudiantes.']], closing:'Un cuerpo docente con necesidades claramente diagnosticadas posibilita una planificación formativa coherente con los requerimientos reales del proceso de enseñanza-aprendizaje.' },
+    { heading:'E) Enfoque Preventivo y de Mejora Continua', paragraphs:['Finalmente, la correspondencia con el modelo del CACES se expresa en el carácter preventivo y prospectivo del diagnóstico, coherente con la lógica del modelo de evaluación externa, que concibe la evaluación como:'], lists:[['Un medio para orientar la mejora institucional.','Un incentivo para el desarrollo de capacidades.','Una herramienta para la toma de decisiones estratégicas sostenibles.']], closing:'En este sentido, la detección de necesidades de capacitación se consolida como un instrumento clave del sistema interno de aseguramiento de la calidad, alineado con los principios, criterios y estándares definidos por el CACES para los institutos superiores técnicos y tecnológicos.' }
+  ]
+};
 
-  document.getElementById('introPreview').innerHTML = renderIntroHtml();
-  document.getElementById('legalPreview').innerHTML = renderLegalHtml();
-  document.getElementById('legalList').innerHTML = LEGAL.blocks.map((b,i)=>`<div class="legal-item"><strong>${i+1}. ${escapeHtml(b.title)}</strong><span>${b.items.length} considerando(s)</span></div>`).join('');
-
-  const logoPreview = document.getElementById('logoPreview');
-  logoPreview.innerHTML = state.logo ? `<img src="${state.logo}" alt="Logotipo institucional">` : 'Sin logotipo cargado';
-}
-
-function navigate(view){
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(v=>v.classList.remove('active'));
-  const target = document.getElementById(`view-${view}`);
-  if(target) target.classList.add('active');
-  const nav = document.querySelector(`.nav-item[data-view="${view}"]`);
-  if(nav) nav.classList.add('active');
-  const titles = {inicio:'Panel de capacitación docente',periodos:'Períodos', 'dnc-introduccion':'DNC · Introducción','dnc-base-legal':'DNC · Base Legal',configuracion:'Configuración'};
-  document.getElementById('pageTitle').textContent = titles[view] || 'DOC-CAPA';
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function toast(message){
-  const el = document.getElementById('toast'); el.textContent=message; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2600);
-}
-
-function savePeriod(){
-  const start = document.getElementById('periodStart').value;
-  const end = document.getElementById('periodEnd').value;
-  if(!start || !end) return toast('Selecciona inicio y fin del período.');
-  if(start > end) return toast('La fecha de inicio no puede ser posterior al fin.');
-  state.period = {start,end,id:`PER-${start}-${end}`};
-  saveState(); toast('Período guardado.');
-}
-
-function downloadCareersTemplate(){
-  const ws = XLSX.utils.aoa_to_sheet([
-    ['CODIGO_CARRERA','CARRERA','ACTIVA'],
-    ['','Ejemplo de carrera','SI']
-  ]);
-  ws['!cols']=[{wch:18},{wch:48},{wch:12}];
-  const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,'Carreras');
-  XLSX.writeFile(wb,`Plantilla_Carreras_${state.period?.id || 'Periodo'}.xlsx`);
-}
-
-async function importCareers(file){
-  try{
-    const data=await file.arrayBuffer(); const wb=XLSX.read(data); const sheet=wb.Sheets[wb.SheetNames[0]];
-    const rows=XLSX.utils.sheet_to_json(sheet,{defval:''});
-    const good=[], bad=[];
-    rows.forEach((r,idx)=>{
-      const name=String(r.CARRERA||'').trim();
-      if(!name){ bad.push({...r,FILA_EXCEL:idx+2,ERROR:'CARRERA es obligatoria'}); return; }
-      const raw=normalized(r.ACTIVA||'si');
-      good.push({code:String(r.CODIGO_CARRERA||'').trim(),name,active:!['no','0','false','inactiva'].includes(raw)});
-    });
-    state.careers = mergeByName(state.careers,good);
-    saveState();
-    const result=document.getElementById('careersImportResult');
-    result.innerHTML=`<div class="info-box">${good.length} fila(s) cargada(s). ${bad.length ? `${bad.length} con error. <button class="text-button" id="downloadErrorsBtn">Descargar plantilla de corrección</button>` : 'Sin errores.'}</div>`;
-    if(bad.length){ document.getElementById('downloadErrorsBtn').onclick=()=>downloadErrorWorkbook(bad,'Correccion_Carreras.xlsx'); }
-  }catch(e){ console.error(e); toast('No se pudo leer la plantilla Excel.'); }
-}
-
-function mergeByName(existing,incoming){
-  const map=new Map(existing.map(x=>[normalized(x.name),x]));
-  incoming.forEach(x=>map.set(normalized(x.name),x));
-  return [...map.values()].sort((a,b)=>a.name.localeCompare(b.name,'es'));
-}
-
-function downloadErrorWorkbook(rows,filename){
-  const ws=XLSX.utils.json_to_sheet(rows); const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,'Corregir'); XLSX.writeFile(wb,filename);
-}
-
-function handleLogo(file){
-  if(!file) return;
-  const reader=new FileReader();
-  reader.onload=()=>{state.logo=reader.result;saveState();toast('Logotipo cargado.');};
-  reader.readAsDataURL(file);
-}
-
-function validateDncForFinal(){
-  const errors=[]; const cov=coverageInfo();
-  if(!state.period) errors.push('No existe un período activo.');
-  if(!activeCareers().length) errors.push('No existen carreras activas cargadas para el período.');
-  if(cov.status!=='complete') errors.push('La cobertura del diagnóstico todavía no está completa.');
-  if(LEGAL.blocks.length!==7) errors.push('La Base Legal maestra no contiene los 7 bloques esperados.');
-  return errors;
-}
-
-function buildPrintDocument(){
-  const period=state.period?periodLabel():'Período pendiente';
-  const logo=state.logo ? `<img src="${state.logo}" alt="Logo">` : '<span class="rgi-logo-placeholder">LOGOTIPO<br>ITSQMET</span>';
-  return `
-    <section class="doc-cover">
-      <div class="rgi-head">
-        <div class="rgi-logo">${logo}</div>
-        <div class="rgi-center"><div class="rgi-unit">Unidad de Gestión de Procesos Académicos</div><div class="rgi-doc">Detección de Necesidades de Capacitación<br>${escapeHtml(period)}</div></div>
-        <div class="rgi-code"><div><strong>Código:</strong><br>UGPA-RGI1-01-PRO-70-<br>${state.period ? state.period.start : 'AAAA-MM'}</div></div>
-      </div>
-      <div class="cover-title"><h1>Detección de Necesidades de Capacitación</h1><h2>${escapeHtml(period)}</h2></div>
-      <div class="signature-grid">
-        ${signatureColumn('ELABORADO POR:','Mgs. Jefferson Villarreal','Gestor de Procesos Académicos')}
-        ${signatureColumn('REVISADO POR:','Ing. Martha Tomalá','Coordinadora General de Carreras')}
-        ${signatureColumn('APROBADO POR:','Dr. Alex León','Vicerrector')}
-      </div>
-    </section>
-    <section class="doc-content doc-page">${renderIntroHtml()}</section>
-    <section class="doc-content doc-page">${renderLegalHtml()}</section>`;
-}
-
-function signatureColumn(label,name,role){
-  return `<div class="signature-col"><div class="signature-space">${label}</div><div><strong>NOMBRE:</strong> ${escapeHtml(name)}</div><div><strong>CARGO:</strong> ${escapeHtml(role)}</div></div>`;
-}
-
-function openPreview(){
-  document.getElementById('printDocument').innerHTML=buildPrintDocument();
-  document.getElementById('pdfPreviewDialog').showModal();
-}
-
-function closePreview(){ document.getElementById('pdfPreviewDialog').close(); }
-
-function addWrappedText(doc,text,x,y,maxWidth,{size=10,bold=false,italic=false,lineHeight=4.8}={}){
-  doc.setFont('helvetica', bold ? (italic?'bolditalic':'bold') : (italic?'italic':'normal'));
-  doc.setFontSize(size);
-  const lines=doc.splitTextToSize(text,maxWidth);
-  lines.forEach(line=>{ if(y>280){doc.addPage();y=18;} doc.text(line,x,y,{align:'left'}); y+=lineHeight; });
-  return y;
-}
-
-function drawRgiHeader(doc,period){
-  const x=15,y=15,w=180,h1=8,h2=20; doc.setDrawColor(0); doc.setLineWidth(.25);
-  doc.rect(x,y,45,h1+h2); doc.rect(x+45,y,90,h1); doc.rect(x+45,y+h1,90,h2); doc.rect(x+135,y,45,h1+h2);
-  if(state.logo){ try{doc.addImage(state.logo,'PNG',x+4,y+4,37,18,undefined,'FAST');}catch{} }
-  else { doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text('ITSQMET',x+22.5,y+14,{align:'center'}); }
-  doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text('Unidad de Gestión de Procesos Académicos',x+90,y+5.2,{align:'center'});
-  doc.setFontSize(8.5);doc.text('Detección de Necesidades de Capacitación',x+90,y+14,{align:'center'});doc.setFont('helvetica','normal');doc.setFontSize(8);doc.text(period,x+90,y+20,{align:'center'});
-  doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.text(['Código:','UGPA-RGI1-01-PRO-70-',state.period?state.period.start:'AAAA-MM'],x+157.5,y+10,{align:'center'});
-}
-
-function drawCover(doc){
-  const period=state.period?periodLabel():'Período pendiente'; drawRgiHeader(doc,period);
-  doc.setFont('helvetica','bold');doc.setFontSize(18);doc.text('Detección de Necesidades de Capacitación',105,132,{align:'center'});doc.setFontSize(16);doc.text(period,105,144,{align:'center'});
-  const y=238,x=15,col=60;doc.setDrawColor(0);doc.setLineWidth(.25);doc.rect(x,y,180,42);doc.line(x+col,y,x+col,y+42);doc.line(x+col*2,y,x+col*2,y+42);doc.line(x,y+24,x+180,y+24);doc.line(x,y+31.5,x+180,y+31.5);
-  const rows=[['ELABORADO POR:','Mgs. Jefferson Villarreal','Gestor de Procesos Académicos'],['REVISADO POR:','Ing. Martha Tomalá','Coordinadora General de Carreras'],['APROBADO POR:','Dr. Alex León','Vicerrector']];
-  rows.forEach((r,i)=>{const cx=x+i*col+2;doc.setFontSize(7.5);doc.setFont('helvetica','bold');doc.text(r[0],cx,y+5);doc.text('NOMBRE:',cx,y+29);doc.text('CARGO:',cx,y+36);doc.setFont('helvetica','normal');doc.text(r[1],cx+14,y+29);const roleLines=doc.splitTextToSize(r[2],42);doc.text(roleLines,cx+12,y+36);});
-}
-
-function writeHeading(doc,text,level,y){
-  const size=level===2?13:level===3?11:10; if(y>275){doc.addPage();y=18;}doc.setFont('helvetica','bold');doc.setFontSize(size);doc.text(text,15,y);return y+(level===2?7:6);
-}
-
-function writeParagraph(doc,text,y){
-  doc.setFont('helvetica','normal');doc.setFontSize(9.5);const lines=doc.splitTextToSize(text,180);for(const line of lines){if(y>280){doc.addPage();y=18;}doc.text(line,15,y,{maxWidth:180});y+=4.6;}return y+2.5;
-}
-
-function writeIntroPdf(doc){
-  let y=20;y=writeHeading(doc,'1. Introducción',2,y);y=writeHeading(doc,'1.1. Justificación del Informe',3,y);INTRO.justification.forEach(p=>y=writeParagraph(doc,p,y));
-  y=writeHeading(doc,'1.2. Alcance Temporal y Cobertura',3,y);introScopeParagraphs().forEach(p=>y=writeParagraph(doc,p,y));
-  y=writeHeading(doc,'1.3. Contexto Institucional y Transformaciones Educativas',3,y);INTRO.contextIntro.forEach(p=>y=writeParagraph(doc,p,y));
-  INTRO.transformations.forEach(([title,pars])=>{y=writeHeading(doc,title,4,y);pars.forEach(p=>y=writeParagraph(doc,p,y));});
-  y=writeHeading(doc,'1.4. Objetivos del Diagnóstico',3,y);INTRO.objectivesIntro.forEach(p=>y=writeParagraph(doc,p,y));
-  y=writeHeading(doc,'1.4.1. Objetivo General',4,y);y=writeParagraph(doc,INTRO.generalObjective,y);y=writeHeading(doc,'1.4.2. Objetivos Específicos',4,y);
-  INTRO.specificObjectives.forEach((p,i)=>{y=writeParagraph(doc,`${String.fromCharCode(97+i)}) ${p}`,y)});
-}
-
-function writeLegalPdf(doc){
-  let y=20;y=writeHeading(doc,'2. Base Legal',2,y);LEGAL.intro.forEach(p=>y=writeParagraph(doc,p,y));
-  LEGAL.blocks.forEach(block=>{
-    y=writeHeading(doc,block.title,4,y);
-    block.items.forEach(item=>{
-      if(y>278){doc.addPage();y=18;}
-      doc.setFont('helvetica','italic');doc.setFontSize(9.5);doc.text('Que,',15,y);
-      doc.setFont('helvetica','normal');const lines=doc.splitTextToSize(item,165);
-      lines.forEach((line,idx)=>{if(y>280){doc.addPage();y=18;}doc.text(line,30,y);y+=4.6;});y+=1.8;
-    });
-  });
-  y=writeParagraph(doc,LEGAL.closing,y);
-}
-
-function downloadPdf(){
-  if(!jsPDF) return toast('No se cargó el generador PDF.');
-  const errors=validateDncForFinal();
-  if(errors.length){ toast(`PDF de trabajo: ${errors[0]}`); }
-  const doc=new jsPDF({unit:'mm',format:'a4',orientation:'portrait'});drawCover(doc);doc.addPage();writeIntroPdf(doc);doc.addPage();writeLegalPdf(doc);
-  const suffix=state.period ? `${state.period.start}_${state.period.end}` : 'BORRADOR';doc.save(`DNC_ITSQMET_${suffix}.pdf`);
-}
-
-function bindEvents(){
-  document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.view)));
-  document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.go)));
-  document.getElementById('savePeriodBtn').addEventListener('click',savePeriod);
-  document.getElementById('downloadCareersTemplateBtn').addEventListener('click',downloadCareersTemplate);
-  document.getElementById('careersFileInput').addEventListener('change',e=>e.target.files[0]&&importCareers(e.target.files[0]));
-  document.getElementById('logoInput').addEventListener('change',e=>handleLogo(e.target.files[0]));
-  document.getElementById('removeLogoBtn').addEventListener('click',()=>{state.logo=null;saveState();});
-  document.getElementById('previewDncBtn').addEventListener('click',openPreview);
-  document.getElementById('previewLegalBtn').addEventListener('click',openPreview);
-  document.getElementById('downloadDncBtn').addEventListener('click',downloadPdf);
-  document.getElementById('downloadFromPreviewBtn').addEventListener('click',downloadPdf);
-  document.getElementById('closePreviewBtn').addEventListener('click',closePreview);
-  document.getElementById('closePreviewBottomBtn').addEventListener('click',closePreview);
-}
-
+function defaultConfig(){ return { pedi:'Plan Estratégico de Desarrollo Institucional (PEDI)', poa:'Plan Operativo Anual (POA)', manual:'Manual de Procesos Académicos del Instituto Superior Tecnológico Quito Metropolitano (ITSQMET)', cacesModel:'Modelo de Evaluación Externa 2024 con fines de acreditación para los Institutos Superiores Técnicos y Tecnológicos', cacesYear:'2024', cacesValidated:true }; }
+function defaultState(){ return {period:null,careers:[],diagnosedCareers:[],logo:null,dncStatus:'draft',legalSnapshot:null,institutionalConfig:defaultConfig()}; }
+function loadState(){ try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY))||{};return {...defaultState(),...saved,institutionalConfig:{...defaultConfig(),...(saved.institutionalConfig||{})}};}catch{return defaultState();} }
+const state=loadState();
+function saveState(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state));renderAll();}
+function monthLabel(value){if(!value)return'';const[year,month]=value.split('-').map(Number),names=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];return`${names[month-1]} ${year}`;}
+function periodLabel(){return state.period?`${monthLabel(state.period.start)} – ${monthLabel(state.period.end)}`:'Sin período activo';}
+function normalized(text){return String(text??'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+function activeCareers(){return state.careers.filter(c=>c.active!==false);}
+function diagnosedSet(){return new Set(state.diagnosedCareers.map(normalized));}
+function diagnosedActiveCareers(){const set=diagnosedSet();return activeCareers().filter(c=>set.has(normalized(c.name)));}
+function coverageInfo(){const total=activeCareers().length,covered=diagnosedActiveCareers().length;if(!total)return{total:0,covered:0,pct:null,status:'pending',phrase:'las carreras incluidas en el proceso de detección de necesidades de capacitación'};if(!state.diagnosedCareers.length)return{total,covered:0,pct:0,status:'pending',phrase:'las carreras incluidas en el proceso de detección de necesidades de capacitación'};const pct=Math.round(covered/total*100);if(covered===total)return{total,covered,pct,status:'complete',phrase:'las carreras ofertadas por el ITSQMET'};return{total,covered,pct,status:'partial',phrase:'las carreras incluidas en el proceso de detección de necesidades de capacitación correspondiente al período'};}
+function introScopeParagraphs(){const period=state.period?periodLabel():'[PERÍODO ACADÉMICO PENDIENTE]',coverage=coverageInfo();return[`El presente informe de detección de necesidades de capacitación docente se desarrolla para el período académico ${period}, considerado un momento estratégico dentro del ciclo de planificación, seguimiento y mejora continua de la docencia en el Instituto Superior Tecnológico Quito Metropolitano (ITSQMET). Este período permite analizar de manera pertinente las condiciones reales del ejercicio docente, las prácticas pedagógicas implementadas y las brechas de capacitación evidenciadas durante el desarrollo académico institucional.`,'El alcance temporal del diagnóstico no se limita a una revisión puntual, sino que recoge información acumulada y validada a partir de la experiencia docente inmediata, las observaciones académicas realizadas durante el desarrollo de las asignaturas y la reflexión pedagógica generada en los espacios de coordinación y trabajo colegiado. De esta manera, la detección responde a necesidades actuales y contextualizadas, evitando enfoques aislados o desarticulados de la realidad institucional.',`En cuanto a la cobertura, el informe abarca ${coverage.phrase}, considerando a los docentes y coordinadores de carrera como actores clave en la identificación de necesidades de capacitación. La detección se realiza exclusivamente desde la función sustantiva de docencia, enfocándose en los procesos de planificación académica, desarrollo de clases, evaluación del aprendizaje, uso de metodologías y fortalecimiento de competencias pedagógicas vinculadas al perfil de egreso de cada carrera.`,'La cobertura del diagnóstico se estructura a nivel de carrera, permitiendo identificar múltiples necesidades de capacitación docente, sustentadas en evidencia cualitativa y cuantitativa. A partir de este análisis, se prioriza una necesidad ganadora por carrera, definida como aquella que presenta mayor impacto en la mejora de la docencia y mayor recurrencia según los criterios establecidos. Asimismo, el informe contempla la agrupación de carreras que comparten una misma necesidad de capacitación, lo que posibilita una visión institucional integrada y coherente de las brechas identificadas.','Este enfoque de cobertura permite, además, identificar tendencias transversales, necesidades recurrentes y áreas críticas comunes, sin perder la especificidad disciplinar de cada carrera. De esta forma, el informe aporta información estratégica tanto a nivel particular como institucional, fortaleciendo los procesos de toma de decisiones académicas.','Es importante precisar que el alcance del presente documento se circunscribe estrictamente a la fase de detección y análisis de necesidades, constituyéndose como un insumo técnico previo para la planificación institucional. En consecuencia, no contempla la definición de programas de capacitación, cronogramas, modalidades, cargas horarias ni estrategias de ejecución, los cuales serán desarrollados posteriormente en el Plan de Capacitación Docente, una vez validados los resultados de esta detección.'];}
+function escapeHtml(value){return String(value??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[c]));}
+function renderIntroHtml(){let html='<h2>1. Introducción</h2><h3>1.1. Justificación del Informe</h3>';html+=INTRO.justification.map(p=>`<p>${escapeHtml(p)}</p>`).join('');html+='<h3>1.2. Alcance Temporal y Cobertura</h3>'+introScopeParagraphs().map(p=>`<p>${escapeHtml(p)}</p>`).join('');html+='<h3>1.3. Contexto Institucional y Transformaciones Educativas</h3>'+INTRO.contextIntro.map(p=>`<p>${escapeHtml(p)}</p>`).join('');INTRO.transformations.forEach(([title,pars])=>{html+=`<h4>${escapeHtml(title)}</h4>${pars.map(p=>`<p>${escapeHtml(p)}</p>`).join('')}`;});html+='<h3>1.4. Objetivos del Diagnóstico</h3>'+INTRO.objectivesIntro.map(p=>`<p>${escapeHtml(p)}</p>`).join('');html+=`<h4>1.4.1. Objetivo General</h4><p>${escapeHtml(INTRO.generalObjective)}</p>`;html+='<h4>1.4.2. Objetivos Específicos</h4><ol class="alpha" type="a">'+INTRO.specificObjectives.map(x=>`<li>${escapeHtml(x)}</li>`).join('')+'</ol>';return html;}
+function renderLegalHtml(){let html='<h2>2. Base Legal</h2>'+LEGAL.intro.map(p=>`<p>${escapeHtml(p)}</p>`).join('');LEGAL.blocks.forEach(block=>{html+=`<div class="legal-block"><div class="legal-block-title">${escapeHtml(block.title)}</div>`+block.items.map(item=>`<div class="considerando"><em>Que,</em><span>${escapeHtml(item)}</span></div>`).join('')+'</div>';});return html+`<p>${escapeHtml(LEGAL.closing)}</p>`;}
+function renderStandardAlignmentSection(section,cfg){let html=`<h3>${escapeHtml(section.title)}</h3>`+section.intro(cfg).map(p=>`<p>${escapeHtml(p)}</p>`).join('');section.blocks.forEach(([heading,text])=>{html+=`<h4 class="letter-heading">${escapeHtml(heading)}</h4><p>${escapeHtml(text)}</p>`;});return html+`<p>${escapeHtml(section.closing)}</p>`;}
+function renderBulletList(items){return`<ul class="doc-bullets">${items.map(x=>`<li>${escapeHtml(x)}</li>`).join('')}</ul>`;}
+function emphasizeCaces(text){let safe=escapeHtml(text);['Criterio Organización','Subcriterio Planificación y Desarrollo','Aseguramiento Interno de la Calidad','Criterio Profesores','Formación académica en curso y capacitación','Criterio Docencia'].forEach(term=>{safe=safe.replace(term,`<strong>${term}</strong>`);});return safe;}
+function renderCacesHtml(cfg){let html=`<h3>${escapeHtml(CACES_BLOCK.title)}</h3>`+CACES_BLOCK.intro(cfg).map(p=>`<p>${escapeHtml(p)}</p>`).join('');CACES_BLOCK.sections.forEach(sec=>{html+=`<h4 class="letter-heading">${escapeHtml(sec.heading)}</h4>`;sec.paragraphs.forEach((p,idx)=>{html+=`<p>${emphasizeCaces(p)}</p>`;if(idx===sec.paragraphs.length-1&&sec.lists?.[0])html+=renderBulletList(sec.lists[0]);});if(sec.bridge){html+=`<p>${escapeHtml(sec.bridge)}</p>`;if(sec.lists?.[1])html+=renderBulletList(sec.lists[1]);}if(sec.closing)html+=`<p>${escapeHtml(sec.closing)}</p>`;});return html;}
+function renderAlignmentHtml(){const cfg=state.institutionalConfig;let html='<h2>3. Alineación Institucional</h2>'+ALIGNMENT.intro.map(p=>`<p>${escapeHtml(p)}</p>`).join('');html+=renderStandardAlignmentSection(ALIGNMENT.pedi,cfg);html+=renderStandardAlignmentSection(ALIGNMENT.poa,cfg);html+=renderStandardAlignmentSection(ALIGNMENT.manual,cfg);html+=renderCacesHtml(cfg);return html;}
+function setText(id,value){const el=document.getElementById(id);if(el)el.textContent=value;}
+function renderAll(){const cfg=state.institutionalConfig,active=activeCareers(),covered=diagnosedActiveCareers(),coverage=coverageInfo();setText('activePeriodChip',state.period?periodLabel():'Sin período activo');setText('homePeriodName',state.period?periodLabel():'No configurado');setText('introPeriod',state.period?periodLabel():'Pendiente');setText('homeCareersCount',active.length);setText('homeDiagnosedCount',covered.length);setText('homeCoverage',coverage.pct==null?'—':`${coverage.pct}%`);setText('introActiveCareers',active.length);setText('introCoverage',coverage.status==='complete'?'Completa':coverage.status==='partial'?'Parcial':'Pendiente');const ps=document.getElementById('periodStatusDot');if(ps)ps.className=`dot${state.period?' ok':''}`;setText('periodStatusText',state.period?'Período configurado':'Período pendiente');const cs=document.getElementById('coverageStatusDot');if(cs)cs.className=`dot${coverage.status==='complete'?' ok':''}`;setText('coverageStatusText',coverage.status==='complete'?'Cobertura completa':coverage.status==='partial'?`Cobertura parcial (${coverage.covered}/${coverage.total})`:'Cobertura pendiente');if(state.period){document.getElementById('periodStart').value=state.period.start;document.getElementById('periodEnd').value=state.period.end;setText('periodSummary',`Período activo: ${periodLabel()}`);}const tbody=document.getElementById('careersTableBody');setText('careersTableCaption',`${state.careers.length} registro(s)`);if(tbody)tbody.innerHTML=!state.careers.length?'<tr><td colspan="3" class="empty">Sin registros.</td></tr>':state.careers.map(c=>`<tr><td>${escapeHtml(c.code||'—')}</td><td>${escapeHtml(c.name)}</td><td>${c.active===false?'No':'Sí'}</td></tr>`).join('');document.getElementById('introPreview').innerHTML=renderIntroHtml();document.getElementById('legalPreview').innerHTML=renderLegalHtml();document.getElementById('alignmentPreview').innerHTML=renderAlignmentHtml();document.getElementById('legalList').innerHTML=LEGAL.blocks.map((b,i)=>`<div class="legal-item"><strong>${i+1}. ${escapeHtml(b.title)}</strong><span>${b.items.length} considerando(s)</span></div>`).join('');document.getElementById('alignmentSources').innerHTML=[cfg.pedi,cfg.poa,cfg.manual,cfg.cacesModel].map((x,i)=>`<div class="legal-item"><strong>${i+1}. ${escapeHtml(x)}</strong><span>${i===3?(cfg.cacesValidated?'Bloque CACES validado':'Requiere validación'):'Referencia institucional activa'}</span></div>`).join('');['pediInput','poaInput','manualInput','cacesModelInput','cacesYearInput'].forEach(id=>{const el=document.getElementById(id);if(el){const key={pediInput:'pedi',poaInput:'poa',manualInput:'manual',cacesModelInput:'cacesModel',cacesYearInput:'cacesYear'}[id];el.value=cfg[key]||'';}});const chk=document.getElementById('cacesValidatedInput');if(chk)chk.checked=!!cfg.cacesValidated;setText('cacesValidationStatus',cfg.cacesValidated?'Validado para generación':'Pendiente de validación');const logoPreview=document.getElementById('logoPreview');if(logoPreview)logoPreview.innerHTML=state.logo?`<img src="${state.logo}" alt="Logotipo institucional">`:'Sin logotipo cargado';}
+function navigate(view){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(v=>v.classList.remove('active'));document.getElementById(`view-${view}`)?.classList.add('active');document.querySelector(`.nav-item[data-view="${view}"]`)?.classList.add('active');const titles={inicio:'Panel de capacitación docente',periodos:'Períodos','dnc-introduccion':'DNC · Introducción','dnc-base-legal':'DNC · Base Legal','dnc-alineacion':'DNC · Alineación Institucional',configuracion:'Configuración'};setText('pageTitle',titles[view]||'DOC-CAPA');window.scrollTo({top:0,behavior:'smooth'});}
+function toast(message){const el=document.getElementById('toast');el.textContent=message;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2600);}
+function savePeriod(){const start=document.getElementById('periodStart').value,end=document.getElementById('periodEnd').value;if(!start||!end)return toast('Selecciona inicio y fin del período.');if(start>end)return toast('La fecha de inicio no puede ser posterior al fin.');state.period={start,end,id:`PER-${start}-${end}`};saveState();toast('Período guardado.');}
+function downloadCareersTemplate(){const ws=XLSX.utils.aoa_to_sheet([['CODIGO_CARRERA','CARRERA','ACTIVA'],['','Ejemplo de carrera','SI']]);ws['!cols']=[{wch:18},{wch:48},{wch:12}];const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Carreras');XLSX.writeFile(wb,`Plantilla_Carreras_${state.period?.id||'Periodo'}.xlsx`);}
+async function importCareers(file){try{const data=await file.arrayBuffer(),wb=XLSX.read(data),sheet=wb.Sheets[wb.SheetNames[0]],rows=XLSX.utils.sheet_to_json(sheet,{defval:''}),good=[],bad=[];rows.forEach((r,idx)=>{const name=String(r.CARRERA||'').trim();if(!name){bad.push({...r,FILA_EXCEL:idx+2,ERROR:'CARRERA es obligatoria'});return;}const raw=normalized(r.ACTIVA||'si');good.push({code:String(r.CODIGO_CARRERA||'').trim(),name,active:!['no','0','false','inactiva'].includes(raw)});});state.careers=mergeByName(state.careers,good);saveState();const result=document.getElementById('careersImportResult');result.innerHTML=`<div class="info-box">${good.length} fila(s) cargada(s). ${bad.length?`${bad.length} con error. <button class="text-button" id="downloadErrorsBtn">Descargar plantilla de corrección</button>`:'Sin errores.'}</div>`;if(bad.length)document.getElementById('downloadErrorsBtn').onclick=()=>downloadErrorWorkbook(bad,'Correccion_Carreras.xlsx');}catch(e){console.error(e);toast('No se pudo leer la plantilla Excel.');}}
+function mergeByName(existing,incoming){const map=new Map(existing.map(x=>[normalized(x.name),x]));incoming.forEach(x=>map.set(normalized(x.name),x));return[...map.values()].sort((a,b)=>a.name.localeCompare(b.name,'es'));}
+function downloadErrorWorkbook(rows,filename){const ws=XLSX.utils.json_to_sheet(rows),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Corregir');XLSX.writeFile(wb,filename);}
+function handleLogo(file){if(!file)return;const reader=new FileReader();reader.onload=()=>{state.logo=reader.result;saveState();toast('Logotipo cargado.');};reader.readAsDataURL(file);}
+function saveInstitutionalConfig(){const previousModel=state.institutionalConfig.cacesModel;const next={...state.institutionalConfig,pedi:document.getElementById('pediInput').value.trim(),poa:document.getElementById('poaInput').value.trim(),manual:document.getElementById('manualInput').value.trim(),cacesModel:document.getElementById('cacesModelInput').value.trim(),cacesYear:document.getElementById('cacesYearInput').value.trim()};if(next.cacesModel!==previousModel)next.cacesValidated=false;else next.cacesValidated=!!document.getElementById('cacesValidatedInput').checked;state.institutionalConfig=next;saveState();toast(next.cacesValidated?'Instrumentos institucionales guardados.':'Guardado. El bloque CACES requiere validación.');}
+function validateCacesBlock(){if(!state.institutionalConfig.cacesModel.trim())return toast('Primero registra el modelo CACES vigente.');state.institutionalConfig.cacesValidated=true;saveState();toast('Bloque CACES validado para generación.');}
+function validateDncForFinal(){const errors=[],cov=coverageInfo(),cfg=state.institutionalConfig;if(!state.period)errors.push('No existe un período activo.');if(!activeCareers().length)errors.push('No existen carreras activas cargadas para el período.');if(cov.status!=='complete')errors.push('La cobertura del diagnóstico todavía no está completa.');if(LEGAL.blocks.length!==7)errors.push('La Base Legal maestra no contiene los 7 bloques esperados.');if(!cfg.pedi||!cfg.poa||!cfg.manual||!cfg.cacesModel)errors.push('Faltan instrumentos institucionales vigentes.');if(!cfg.cacesValidated)errors.push('El bloque de correspondencia con CACES no está validado.');return errors;}
+function signatureColumn(label,name,role){return`<div class="signature-col"><div class="signature-space">${label}</div><div><strong>NOMBRE:</strong> ${escapeHtml(name)}</div><div><strong>CARGO:</strong> ${escapeHtml(role)}</div></div>`;}
+function buildPrintDocument(){const period=state.period?periodLabel():'Período pendiente',logo=state.logo?`<img src="${state.logo}" alt="Logo">`:'<span class="rgi-logo-placeholder">LOGOTIPO<br>ITSQMET</span>';return`<section class="doc-cover"><div class="rgi-head"><div class="rgi-logo">${logo}</div><div class="rgi-center"><div class="rgi-unit">Unidad de Gestión de Procesos Académicos</div><div class="rgi-doc">Detección de Necesidades de Capacitación<br>${escapeHtml(period)}</div></div><div class="rgi-code"><div><strong>Código:</strong><br>UGPA-RGI1-01-PRO-70-<br>${state.period?state.period.start:'AAAA-MM'}</div></div></div><div class="cover-title"><h1>Detección de Necesidades de Capacitación</h1><h2>${escapeHtml(period)}</h2></div><div class="signature-grid">${signatureColumn('ELABORADO POR:','Mgs. Jefferson Villarreal','Gestor de Procesos Académicos')}${signatureColumn('REVISADO POR:','Ing. Martha Tomalá','Coordinadora General de Carreras')}${signatureColumn('APROBADO POR:','Dr. Alex León','Vicerrector')}</div></section><section class="doc-content doc-page">${renderIntroHtml()}</section><section class="doc-content doc-page">${renderLegalHtml()}</section><section class="doc-content doc-page">${renderAlignmentHtml()}</section>`;}
+function openPreview(){document.getElementById('printDocument').innerHTML=buildPrintDocument();document.getElementById('pdfPreviewDialog').showModal();}
+function closePreview(){document.getElementById('pdfPreviewDialog').close();}
+function writeHeading(doc,text,level,y){const size=level===2?13:level===3?11:10;if(y>275){doc.addPage();y=18;}doc.setFont('helvetica','bold');doc.setFontSize(size);doc.text(text,15,y);return y+(level===2?7:6);}
+function writeParagraph(doc,text,y,x=15,width=180){doc.setFont('helvetica','normal');doc.setFontSize(9.5);const lines=doc.splitTextToSize(text,width);for(const line of lines){if(y>280){doc.addPage();y=18;}doc.text(line,x,y,{maxWidth:width});y+=4.6;}return y+2.5;}
+function writeBulletList(doc,items,y){items.forEach(item=>{if(y>278){doc.addPage();y=18;}doc.text('•',19,y);y=writeParagraph(doc,item,y,25,170);});return y;}
+function writeIntroPdf(doc){let y=20;y=writeHeading(doc,'1. Introducción',2,y);y=writeHeading(doc,'1.1. Justificación del Informe',3,y);INTRO.justification.forEach(p=>y=writeParagraph(doc,p,y));y=writeHeading(doc,'1.2. Alcance Temporal y Cobertura',3,y);introScopeParagraphs().forEach(p=>y=writeParagraph(doc,p,y));y=writeHeading(doc,'1.3. Contexto Institucional y Transformaciones Educativas',3,y);INTRO.contextIntro.forEach(p=>y=writeParagraph(doc,p,y));INTRO.transformations.forEach(([title,pars])=>{y=writeHeading(doc,title,4,y);pars.forEach(p=>y=writeParagraph(doc,p,y));});y=writeHeading(doc,'1.4. Objetivos del Diagnóstico',3,y);INTRO.objectivesIntro.forEach(p=>y=writeParagraph(doc,p,y));y=writeHeading(doc,'1.4.1. Objetivo General',4,y);y=writeParagraph(doc,INTRO.generalObjective,y);y=writeHeading(doc,'1.4.2. Objetivos Específicos',4,y);INTRO.specificObjectives.forEach((p,i)=>y=writeParagraph(doc,`${String.fromCharCode(97+i)}) ${p}`,y));}
+function writeLegalPdf(doc){let y=20;y=writeHeading(doc,'2. Base Legal',2,y);LEGAL.intro.forEach(p=>y=writeParagraph(doc,p,y));LEGAL.blocks.forEach(block=>{y=writeHeading(doc,block.title,4,y);block.items.forEach(item=>{if(y>278){doc.addPage();y=18;}doc.setFont('helvetica','italic');doc.setFontSize(9.5);doc.text('Que,',15,y);doc.setFont('helvetica','normal');const lines=doc.splitTextToSize(item,165);lines.forEach(line=>{if(y>280){doc.addPage();y=18;}doc.text(line,30,y);y+=4.6;});y+=1.8;});});y=writeParagraph(doc,LEGAL.closing,y);}
+function writeStandardAlignmentPdf(doc,section,cfg,y){y=writeHeading(doc,section.title,3,y);section.intro(cfg).forEach(p=>y=writeParagraph(doc,p,y));section.blocks.forEach(([h,p])=>{y=writeHeading(doc,h,4,y);y=writeParagraph(doc,p,y);});return writeParagraph(doc,section.closing,y);}
+function writeAlignmentPdf(doc){const cfg=state.institutionalConfig;let y=20;y=writeHeading(doc,'3. Alineación Institucional',2,y);ALIGNMENT.intro.forEach(p=>y=writeParagraph(doc,p,y));y=writeStandardAlignmentPdf(doc,ALIGNMENT.pedi,cfg,y);y=writeStandardAlignmentPdf(doc,ALIGNMENT.poa,cfg,y);y=writeStandardAlignmentPdf(doc,ALIGNMENT.manual,cfg,y);y=writeHeading(doc,CACES_BLOCK.title,3,y);CACES_BLOCK.intro(cfg).forEach(p=>y=writeParagraph(doc,p,y));CACES_BLOCK.sections.forEach(sec=>{y=writeHeading(doc,sec.heading,4,y);sec.paragraphs.forEach((p,idx)=>{y=writeParagraph(doc,p,y);if(idx===sec.paragraphs.length-1&&sec.lists?.[0])y=writeBulletList(doc,sec.lists[0],y);});if(sec.bridge){y=writeParagraph(doc,sec.bridge,y);if(sec.lists?.[1])y=writeBulletList(doc,sec.lists[1],y);}if(sec.closing)y=writeParagraph(doc,sec.closing,y);});}
+function drawRgiHeader(doc,period){const x=15,y=15,h1=8,h2=20;doc.setDrawColor(0);doc.setLineWidth(.25);doc.rect(x,y,45,h1+h2);doc.rect(x+45,y,90,h1);doc.rect(x+45,y+h1,90,h2);doc.rect(x+135,y,45,h1+h2);if(state.logo){try{doc.addImage(state.logo,'PNG',x+4,y+4,37,18,undefined,'FAST');}catch{}}else{doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text('ITSQMET',x+22.5,y+14,{align:'center'});}doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text('Unidad de Gestión de Procesos Académicos',x+90,y+5.2,{align:'center'});doc.setFontSize(8.5);doc.text('Detección de Necesidades de Capacitación',x+90,y+14,{align:'center'});doc.setFont('helvetica','normal');doc.setFontSize(8);doc.text(period,x+90,y+20,{align:'center'});doc.setFontSize(7.5);doc.text(['Código:','UGPA-RGI1-01-PRO-70-',state.period?state.period.start:'AAAA-MM'],x+157.5,y+10,{align:'center'});}
+function drawCover(doc){const period=state.period?periodLabel():'Período pendiente';drawRgiHeader(doc,period);doc.setFont('helvetica','bold');doc.setFontSize(18);doc.text('Detección de Necesidades de Capacitación',105,132,{align:'center'});doc.setFontSize(16);doc.text(period,105,144,{align:'center'});const y=238,x=15,col=60;doc.setDrawColor(0);doc.setLineWidth(.25);doc.rect(x,y,180,42);doc.line(x+col,y,x+col,y+42);doc.line(x+col*2,y,x+col*2,y+42);doc.line(x,y+24,x+180,y+24);doc.line(x,y+31.5,x+180,y+31.5);const rows=[['ELABORADO POR:','Mgs. Jefferson Villarreal','Gestor de Procesos Académicos'],['REVISADO POR:','Ing. Martha Tomalá','Coordinadora General de Carreras'],['APROBADO POR:','Dr. Alex León','Vicerrector']];rows.forEach((r,i)=>{const cx=x+i*col+2;doc.setFontSize(7.5);doc.setFont('helvetica','bold');doc.text(r[0],cx,y+5);doc.text('NOMBRE:',cx,y+29);doc.text('CARGO:',cx,y+36);doc.setFont('helvetica','normal');doc.text(r[1],cx+14,y+29);doc.text(doc.splitTextToSize(r[2],42),cx+12,y+36);});}
+function downloadPdf(){if(!jsPDF)return toast('No se cargó el generador PDF.');const errors=validateDncForFinal();if(errors.length)toast(`PDF de trabajo: ${errors[0]}`);const doc=new jsPDF({unit:'mm',format:'a4',orientation:'portrait'});drawCover(doc);doc.addPage();writeIntroPdf(doc);doc.addPage();writeLegalPdf(doc);doc.addPage();writeAlignmentPdf(doc);const suffix=state.period?`${state.period.start}_${state.period.end}`:'BORRADOR';doc.save(`DNC_ITSQMET_${suffix}.pdf`);}
+function bindEvents(){document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.view)));document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.go)));document.getElementById('savePeriodBtn').addEventListener('click',savePeriod);document.getElementById('downloadCareersTemplateBtn').addEventListener('click',downloadCareersTemplate);document.getElementById('careersFileInput').addEventListener('change',e=>e.target.files[0]&&importCareers(e.target.files[0]));document.getElementById('logoInput').addEventListener('change',e=>handleLogo(e.target.files[0]));document.getElementById('removeLogoBtn').addEventListener('click',()=>{state.logo=null;saveState();});document.getElementById('saveInstitutionalConfigBtn').addEventListener('click',saveInstitutionalConfig);document.getElementById('validateCacesBtn').addEventListener('click',validateCacesBlock);document.getElementById('previewDncBtn').addEventListener('click',openPreview);document.getElementById('previewLegalBtn').addEventListener('click',openPreview);document.getElementById('previewAlignmentBtn').addEventListener('click',openPreview);document.getElementById('downloadDncBtn').addEventListener('click',downloadPdf);document.getElementById('downloadFromPreviewBtn').addEventListener('click',downloadPdf);document.getElementById('closePreviewBtn').addEventListener('click',closePreview);document.getElementById('closePreviewBottomBtn').addEventListener('click',closePreview);}
 bindEvents();renderAll();
