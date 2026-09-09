@@ -6,104 +6,136 @@
   <meta name="theme-color" content="#0f2747" />
   <title>DOC-CAPA | ITSQMET</title>
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="alignment.css" />
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    .method-source-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:16px}.method-source-card{border:1px solid var(--line);border-radius:12px;padding:15px;background:#fbfcfe}.method-source-card h4{margin:0 0 6px}.method-source-card p{font-size:12px;margin:0 0 10px}.source-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.source-badge{font-size:10px;font-weight:800;padding:5px 8px;border-radius:999px;background:#eef3f9;color:#536277}.source-badge.ok{background:#e9f8f0;color:var(--ok)}.method-figure{border:1px dashed #b7c2d0;border-radius:12px;min-height:180px;display:grid;place-items:center;margin:14px 0 18px;overflow:hidden;background:#fafbfd;color:#8792a2;text-align:center;padding:14px}.method-figure img{max-width:100%;max-height:300px;object-fit:contain}.method-subblock{margin:18px 0}.method-subblock>strong{display:block;margin-bottom:7px}.method-list{margin:6px 0 14px 24px}.method-list li{margin:5px 0;text-align:justify}.candidate-table select,.candidate-table input{width:100%;min-width:110px;border:1px solid var(--line);border-radius:7px;padding:7px;background:#fff}.candidate-table .need-input{min-width:260px}.candidate-actions{display:flex;gap:8px;flex-wrap:wrap}.lock-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:#f7f9fc;margin-bottom:18px}.lock-banner.locked{background:#fff6e5;border-color:#efd49a}.config-image-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}.config-image-box{border:1px solid var(--line);border-radius:10px;padding:12px}.config-image-box .logo-preview{min-height:100px}.inline-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.inline-form label.full{grid-column:1/-1}.inline-form input,.inline-form select{display:block;width:100%;margin-top:6px;border:1px solid var(--line);border-radius:9px;padding:10px;background:#fff}.tiny{font-size:11px;color:var(--muted)}@media(max-width:980px){.method-source-grid,.config-image-grid,.inline-form{grid-template-columns:1fr}}
+  </style>
 </head>
 <body>
-  <div class="app-shell">
-    <aside class="sidebar">
-      <div class="brand"><div class="brand-mark">DC</div><div><strong>DOC-CAPA</strong><span>Capacitación Docente</span></div></div>
-      <nav class="nav" aria-label="Navegación principal">
-        <button class="nav-item active" data-view="inicio">Inicio</button>
-        <button class="nav-item" data-view="periodos">Períodos</button>
-        <div class="nav-section">Detección de Necesidades</div>
-        <button class="nav-item sub" data-view="dnc-introduccion">1. Introducción</button>
-        <button class="nav-item sub" data-view="dnc-base-legal">2. Base Legal</button>
-        <button class="nav-item sub" data-view="dnc-alineacion">3. Alineación institucional</button>
-        <button class="nav-item sub disabled" disabled>4. Metodología</button>
-        <button class="nav-item sub disabled" disabled>5. Resultados</button>
-        <div class="nav-section">Siguientes procesos</div>
-        <button class="nav-item disabled" disabled>Plan de Capacitación</button>
-        <button class="nav-item disabled" disabled>Informe de Cumplimiento</button>
-        <button class="nav-item" data-view="configuracion">Configuración</button>
-      </nav>
-      <div class="sidebar-footer"><span>UGPA · ITSQMET</span><small>Versión inicial</small></div>
-    </aside>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">DC</div><div><strong>DOC-CAPA</strong><span>Capacitación Docente</span></div></div>
+    <nav class="nav" aria-label="Navegación principal">
+      <button class="nav-item active" data-view="inicio">Inicio</button>
+      <button class="nav-item" data-view="periodos">Períodos</button>
+      <div class="nav-section">Detección de Necesidades</div>
+      <button class="nav-item sub" data-view="dnc-introduccion">1. Introducción</button>
+      <button class="nav-item sub" data-view="dnc-base-legal">2. Base Legal</button>
+      <button class="nav-item sub" data-view="dnc-alineacion">3. Alineación institucional</button>
+      <button class="nav-item sub" data-view="dnc-metodologia">4. Metodología</button>
+      <button class="nav-item sub disabled" disabled>5. Resultados</button>
+      <div class="nav-section">Siguientes procesos</div>
+      <button class="nav-item disabled" disabled>Plan de Capacitación</button>
+      <button class="nav-item disabled" disabled>Informe de Cumplimiento</button>
+      <button class="nav-item" data-view="configuracion">Configuración</button>
+    </nav>
+    <div class="sidebar-footer"><span>UGPA · ITSQMET</span><small>Versión inicial</small></div>
+  </aside>
 
-    <main class="main">
-      <header class="topbar">
-        <div><p class="eyebrow">Unidad de Gestión de Procesos Académicos</p><h1 id="pageTitle">Panel de capacitación docente</h1></div>
-        <div class="topbar-actions"><div class="period-chip" id="activePeriodChip">Sin período activo</div><button class="btn btn-secondary" id="previewDncBtn">Vista previa DNC</button><button class="btn btn-primary" id="downloadDncBtn">Descargar PDF</button></div>
-      </header>
+  <main class="main">
+    <header class="topbar">
+      <div><p class="eyebrow">Unidad de Gestión de Procesos Académicos</p><h1 id="pageTitle">Panel de capacitación docente</h1></div>
+      <div class="topbar-actions">
+        <div class="period-chip" id="activePeriodChip">Sin período activo</div>
+        <button class="btn btn-secondary" id="previewDncBtn">Vista previa DNC</button>
+        <button class="btn btn-primary" id="downloadDncBtn">Descargar PDF</button>
+      </div>
+    </header>
 
-      <section id="view-inicio" class="view active">
-        <div class="hero-card"><div><span class="pill">Proceso institucional</span><h2>Detección → Plan → Informe</h2><p>La información se organiza por período. Los datos compartidos se reutilizan y cada proceso incorpora únicamente sus cargas específicas.</p></div><div class="hero-stat"><strong id="implementedSectionsCount">3</strong><span>secciones DNC implementadas</span></div></div>
-        <div class="grid three">
-          <article class="card"><div class="card-head"><span class="step">1</span><span class="status ready">Implementado</span></div><h3>Introducción</h3><p>Texto institucional fijo con período y cobertura calculados automáticamente.</p><button class="text-button" data-go="dnc-introduccion">Abrir sección →</button></article>
-          <article class="card"><div class="card-head"><span class="step">2</span><span class="status ready">Implementado</span></div><h3>Base Legal</h3><p>Plantilla institucional controlada. Sin IA, sin campos manuales y con considerandos estructurados.</p><button class="text-button" data-go="dnc-base-legal">Abrir sección →</button></article>
-          <article class="card"><div class="card-head"><span class="step">3</span><span class="status ready">Implementado</span></div><h3>Alineación Institucional</h3><p>Texto institucional con PEDI, POA, Manual de Procesos y bloque CACES controlados desde Configuración.</p><button class="text-button" data-go="dnc-alineacion">Abrir sección →</button></article>
+    <section id="view-inicio" class="view active">
+      <div class="hero-card"><div><span class="pill">Proceso institucional</span><h2>Detección → Plan → Informe</h2><p>La información se organiza por período. Los datos compartidos se reutilizan y cada proceso incorpora únicamente sus cargas específicas.</p></div><div class="hero-stat"><strong id="implementedSectionsCount">4</strong><span>secciones DNC implementadas</span></div></div>
+      <div class="grid three">
+        <article class="card"><div class="card-head"><span class="step">1</span><span class="status ready">Implementado</span></div><h3>Introducción</h3><p>Texto institucional fijo con período y cobertura calculados automáticamente.</p><button class="text-button" data-go="dnc-introduccion">Abrir sección →</button></article>
+        <article class="card"><div class="card-head"><span class="step">2</span><span class="status ready">Implementado</span></div><h3>Base Legal</h3><p>Plantilla institucional controlada, sin generación jurídica por IA.</p><button class="text-button" data-go="dnc-base-legal">Abrir sección →</button></article>
+        <article class="card"><div class="card-head"><span class="step">3</span><span class="status ready">Implementado</span></div><h3>Alineación Institucional</h3><p>PEDI, POA, Manual de Procesos y bloque CACES controlados.</p><button class="text-button" data-go="dnc-alineacion">Abrir sección →</button></article>
+      </div>
+      <div class="grid two mt-24">
+        <article class="card"><div class="card-head"><span class="step">4</span><span class="status ready">Implementado</span></div><h3>Metodología del Diagnóstico</h3><p>Fuentes por período, plantillas Excel separadas, cinco necesidades candidatas por carrera y validación de la ganadora sin inventar ponderaciones.</p><button class="text-button" data-go="dnc-metodologia">Abrir sección →</button></article>
+        <article class="card"><p class="eyebrow">Estado documental</p><div class="check-list"><div><span class="dot ok"></span>Introducción institucional</div><div><span class="dot ok"></span>Base Legal maestra</div><div><span class="dot ok"></span>Alineación institucional</div><div><span class="dot ok"></span>Metodología implementada</div><div><span class="dot" id="periodStatusDot"></span><span id="periodStatusText">Período pendiente</span></div><div><span class="dot" id="coverageStatusDot"></span><span id="coverageStatusText">Cobertura pendiente</span></div></div></article>
+      </div>
+      <div class="grid two mt-24">
+        <article class="card"><div class="section-title-row"><div><p class="eyebrow">Período activo</p><h3 id="homePeriodName">No configurado</h3></div><button class="btn btn-light" data-go="periodos">Gestionar</button></div><div class="metrics-row"><div><strong id="homeCareersCount">0</strong><span>Carreras cargadas</span></div><div><strong id="homeDiagnosedCount">0</strong><span>Con evidencia</span></div><div><strong id="homeCoverage">—</strong><span>Cobertura</span></div></div></article>
+        <article class="card"><p class="eyebrow">Estado DNC</p><div id="dncLockBanner" class="lock-banner"><div><strong id="dncStatusText">Borrador</strong><div class="tiny" id="dncStatusHelp">Puedes editar la información.</div></div><div class="candidate-actions"><button class="btn btn-primary" id="approveDncBtn">Aprobar DNC</button><button class="btn btn-light" id="reopenDncBtn" hidden>Reabrir</button></div></div><div id="approvalIssues" class="tiny"></div></article>
+      </div>
+    </section>
+
+    <section id="view-periodos" class="view">
+      <div class="section-heading"><div><p class="eyebrow">Configuración principal</p><h2>Períodos</h2><p>El período es el eje común de DNC, Plan e Informe.</p></div></div>
+      <div class="grid two">
+        <article class="card"><h3>Crear / actualizar período activo</h3><div class="form-grid"><label>Mes y año de inicio<input id="periodStart" type="month" /></label><label>Mes y año de fin<input id="periodEnd" type="month" /></label></div><div class="form-actions"><button class="btn btn-primary" id="savePeriodBtn">Guardar período</button></div><div class="info-box" id="periodSummary">No existe un período activo.</div></article>
+        <article class="card"><h3>Carreras del período</h3><p>Se cargan una sola vez y se reutilizan en las fuentes y resultados.</p><div class="upload-zone"><button class="btn btn-light" id="downloadCareersTemplateBtn">Descargar plantilla Excel</button><label class="btn btn-secondary file-label">Subir plantilla<input id="careersFileInput" type="file" accept=".xlsx,.xls" hidden /></label></div><p class="helper">Columnas: <code>CODIGO_CARRERA</code>, <code>CARRERA</code>, <code>ACTIVA</code>.</p><div id="careersImportResult"></div></article>
+      </div>
+      <article class="card mt-24"><div class="section-title-row"><div><h3>Carreras cargadas</h3><p id="careersTableCaption">0 registros</p></div></div><div class="table-wrap"><table><thead><tr><th>Código</th><th>Carrera</th><th>Activa</th></tr></thead><tbody id="careersTableBody"><tr><td colspan="3" class="empty">Sin registros.</td></tr></tbody></table></div></article>
+    </section>
+
+    <section id="view-dnc-introduccion" class="view">
+      <div class="section-heading"><div><p class="eyebrow">DNC · Sección 1</p><h2>Introducción</h2><p>Mixta, con predominio de texto institucional fijo.</p></div><span class="status ready">Automática</span></div>
+      <div class="grid three compact-grid"><article class="mini-card"><span>Período académico</span><strong id="introPeriod">Pendiente</strong><small>Desde período activo</small></article><article class="mini-card"><span>Carreras activas</span><strong id="introActiveCareers">0</strong><small>Desde base del período</small></article><article class="mini-card"><span>Cobertura</span><strong id="introCoverage">Pendiente</strong><small>Calculada por la app</small></article></div>
+      <article class="card mt-24"><div class="section-title-row"><div><h3>Vista previa de contenido</h3><p>La redacción institucional no se vuelve a escribir en cada período.</p></div></div><div class="document-preview" id="introPreview"></div></article>
+    </section>
+
+    <section id="view-dnc-base-legal" class="view">
+      <div class="section-heading"><div><p class="eyebrow">DNC · Sección 2</p><h2>Base Legal</h2><p>Fija institucional, con mantenimiento controlado.</p></div><span class="status locked">Bloqueada para edición</span></div>
+      <div class="notice strong-notice">La app no usa IA para modificar, resumir, sustituir o completar contenido jurídico.</div>
+      <article class="card mt-24"><div class="section-title-row"><div><h3>Plantilla maestra activa</h3><p>7 cuerpos normativos configurados.</p></div><button class="btn btn-light" id="previewLegalBtn">Vista previa</button></div><div class="legal-list" id="legalList"></div></article>
+      <article class="card mt-24"><div class="document-preview" id="legalPreview"></div></article>
+    </section>
+
+    <section id="view-dnc-alineacion" class="view">
+      <div class="section-heading"><div><p class="eyebrow">DNC · Sección 3</p><h2>Alineación Institucional</h2><p>Texto institucional + referencias controladas.</p></div><span class="status ready">Automática</span></div>
+      <div class="grid three compact-grid"><article class="mini-card"><span>PEDI</span><strong id="alignPediStatus">Configurado</strong><small>Configuración institucional</small></article><article class="mini-card"><span>POA</span><strong id="alignPoaStatus">Configurado</strong><small>Configuración institucional</small></article><article class="mini-card"><span>Modelo CACES</span><strong id="alignCacesStatus">Validado</strong><small id="alignCacesModel">Modelo vigente</small></article></div>
+      <article class="card mt-24"><div class="document-preview" id="alignmentPreview"></div></article>
+    </section>
+
+    <section id="view-dnc-metodologia" class="view">
+      <div class="section-heading"><div><p class="eyebrow">DNC · Sección 4</p><h2>Metodología del Diagnóstico</h2><p>Metodología institucional + fuentes reales del período + reglas de priorización.</p></div><span class="status ready">Implementada</span></div>
+      <div class="notice strong-notice">La app no calcula una ganadora mediante pesos inventados. El documento define cuatro criterios, pero no una fórmula matemática. La selección final requiere validación del coordinador.</div>
+
+      <div class="grid three compact-grid">
+        <article class="mini-card"><span>Herramienta encuesta</span><strong id="methodSurveyTool">Microsoft Forms</strong><small>Configuración institucional</small></article>
+        <article class="mini-card"><span>Fuentes con datos</span><strong id="methodSourcesCount">0/5</strong><small>Se valida lo realmente cargado</small></article>
+        <article class="mini-card"><span>Carreras con evidencia</span><strong id="methodCareerEvidenceCount">0</strong><small>Calculado desde las fuentes</small></article>
+      </div>
+
+      <article class="card mt-24">
+        <div class="section-title-row"><div><h3>Fuentes del período</h3><p>Cada fuente usa una plantilla Excel diferente.</p></div></div>
+        <div class="method-source-grid">
+          <div class="method-source-card"><h4>Encuestas institucionales</h4><p>Base cuantitativa. Una fila puede representar una respuesta/necesidad identificada.</p><div class="candidate-actions"><button class="btn btn-light" data-template="surveys">Descargar plantilla</button><label class="btn btn-secondary file-label">Subir Excel<input type="file" hidden accept=".xlsx,.xls" data-source="surveys"></label></div><div class="source-meta"><span class="source-badge" id="badge-surveys">0 registros</span></div><div id="import-surveys"></div></div>
+          <div class="method-source-card"><h4>Reuniones académicas</h4><p>Evidencia cualitativa por carrera.</p><div class="candidate-actions"><button class="btn btn-light" data-template="meetings">Descargar plantilla</button><label class="btn btn-secondary file-label">Subir Excel<input type="file" hidden accept=".xlsx,.xls" data-source="meetings"></label></div><div class="source-meta"><span class="source-badge" id="badge-meetings">0 registros</span></div><div id="import-meetings"></div></div>
+          <div class="method-source-card"><h4>Criterio del coordinador</h4><p>Valida y complementa; no reemplaza la evidencia.</p><div class="candidate-actions"><button class="btn btn-light" data-template="coordinators">Descargar plantilla</button><label class="btn btn-secondary file-label">Subir Excel<input type="file" hidden accept=".xlsx,.xls" data-source="coordinators"></label></div><div class="source-meta"><span class="source-badge" id="badge-coordinators">0 registros</span></div><div id="import-coordinators"></div></div>
+          <div class="method-source-card"><h4>Mallas curriculares</h4><p>Fuente secundaria para perfiles de egreso, competencias y actualización disciplinar.</p><div class="candidate-actions"><button class="btn btn-light" data-template="curricula">Descargar plantilla</button><label class="btn btn-secondary file-label">Subir Excel<input type="file" hidden accept=".xlsx,.xls" data-source="curricula"></label></div><div class="source-meta"><span class="source-badge" id="badge-curricula">0 registros</span></div><div id="import-curricula"></div></div>
+          <div class="method-source-card"><h4>Planes de Enseñanza–Aprendizaje (PEA)</h4><p>Fuente secundaria para contenidos, metodología, resultados y evaluación.</p><div class="candidate-actions"><button class="btn btn-light" data-template="peas">Descargar plantilla</button><label class="btn btn-secondary file-label">Subir Excel<input type="file" hidden accept=".xlsx,.xls" data-source="peas"></label></div><div class="source-meta"><span class="source-badge" id="badge-peas">0 registros</span></div><div id="import-peas"></div></div>
         </div>
-        <div class="grid two mt-24">
-          <article class="card"><div class="section-title-row"><div><p class="eyebrow">Período activo</p><h3 id="homePeriodName">No configurado</h3></div><button class="btn btn-light" data-go="periodos">Gestionar</button></div><div class="metrics-row"><div><strong id="homeCareersCount">0</strong><span>Carreras cargadas</span></div><div><strong id="homeDiagnosedCount">0</strong><span>Con diagnóstico</span></div><div><strong id="homeCoverage">—</strong><span>Cobertura</span></div></div></article>
-          <article class="card"><p class="eyebrow">Estado documental</p><div class="check-list"><div><span class="dot ok"></span>Introducción institucional</div><div><span class="dot ok"></span>Base Legal maestra</div><div><span class="dot ok"></span>Alineación institucional</div><div><span class="dot" id="periodStatusDot"></span><span id="periodStatusText">Período pendiente</span></div><div><span class="dot" id="coverageStatusDot"></span><span id="coverageStatusText">Cobertura pendiente</span></div></div></article>
-        </div>
-      </section>
+      </article>
 
-      <section id="view-periodos" class="view">
-        <div class="section-heading"><div><p class="eyebrow">Configuración principal</p><h2>Períodos</h2><p>El período es el eje común de DNC, Plan e Informe.</p></div></div>
-        <div class="grid two">
-          <article class="card"><h3>Crear / actualizar período activo</h3><div class="form-grid"><label>Mes y año de inicio<input id="periodStart" type="month" /></label><label>Mes y año de fin<input id="periodEnd" type="month" /></label></div><div class="form-actions"><button class="btn btn-primary" id="savePeriodBtn">Guardar período</button></div><div class="info-box" id="periodSummary">No existe un período activo.</div></article>
-          <article class="card"><div class="section-title-row"><div><h3>Carreras del período</h3><p>Se cargan una sola vez y se reutilizan donde corresponda.</p></div></div><div class="upload-zone"><button class="btn btn-light" id="downloadCareersTemplateBtn">Descargar plantilla Excel</button><label class="btn btn-secondary file-label">Subir plantilla<input id="careersFileInput" type="file" accept=".xlsx,.xls" hidden /></label></div><p class="helper">Columnas: <code>CODIGO_CARRERA</code> (opcional), <code>CARRERA</code> (obligatoria), <code>ACTIVA</code> (opcional).</p><div id="careersImportResult"></div></article>
-        </div>
-        <article class="card mt-24"><div class="section-title-row"><div><h3>Carreras cargadas</h3><p id="careersTableCaption">0 registros</p></div></div><div class="table-wrap"><table><thead><tr><th>Código</th><th>Carrera</th><th>Activa</th></tr></thead><tbody id="careersTableBody"><tr><td colspan="3" class="empty">Sin registros.</td></tr></tbody></table></div></article>
-      </section>
+      <article class="card mt-24">
+        <div class="section-title-row"><div><h3>4.3–4.4 · Priorización por carrera</h3><p>La app exige cinco necesidades candidatas por carrera, evidencia asociada y validación del coordinador.</p></div><button class="btn btn-light" id="downloadCandidatesTemplateBtn">Plantilla de candidatas</button></div>
+        <div class="upload-zone"><label class="btn btn-secondary file-label">Subir candidatas<input id="candidatesFileInput" type="file" accept=".xlsx,.xls" hidden></label></div>
+        <p class="helper">No hay puntaje ponderado. <strong>RECURRENCIA</strong> se calcula desde las fuentes; impacto, pertinencia y alineación se registran como valoración institucional.</p>
+        <div id="candidatesImportResult"></div>
+        <div class="table-wrap mt-24"><table class="candidate-table"><thead><tr><th>Carrera</th><th>Necesidad candidata</th><th>Fuentes</th><th>Recurrencia</th><th>Impacto</th><th>Pertinencia</th><th>Alineación</th><th>Preliminar</th><th>Validación coord.</th><th>Ganadora</th></tr></thead><tbody id="candidatesTableBody"><tr><td colspan="10" class="empty">Sin necesidades candidatas cargadas.</td></tr></tbody></table></div>
+      </article>
 
-      <section id="view-dnc-introduccion" class="view">
-        <div class="section-heading"><div><p class="eyebrow">DNC · Sección 1</p><h2>Introducción</h2><p>Mixta, con predominio de texto institucional fijo.</p></div><span class="status ready">Automática</span></div>
-        <div class="grid three compact-grid"><article class="mini-card"><span>Período académico</span><strong id="introPeriod">Pendiente</strong><small>Desde período activo</small></article><article class="mini-card"><span>Carreras activas</span><strong id="introActiveCareers">0</strong><small>Desde base del período</small></article><article class="mini-card"><span>Cobertura</span><strong id="introCoverage">Pendiente</strong><small>Calculada por la app</small></article></div>
-        <article class="card mt-24"><div class="section-title-row"><div><h3>Vista previa de contenido</h3><p>La redacción institucional no se vuelve a escribir en cada período.</p></div></div><div class="document-preview" id="introPreview"></div></article>
-      </section>
+      <article class="card mt-24"><div class="section-title-row"><div><h3>Vista previa metodológica</h3><p>Solo afirma las fuentes que realmente tienen evidencia cargada.</p></div><button class="btn btn-light" id="previewMethodBtn">Vista previa DNC</button></div><div class="document-preview" id="methodPreview"></div></article>
+    </section>
 
-      <section id="view-dnc-base-legal" class="view">
-        <div class="section-heading"><div><p class="eyebrow">DNC · Sección 2</p><h2>Base Legal</h2><p>Fija institucional, con mantenimiento controlado.</p></div><span class="status locked">Bloqueada para edición</span></div>
-        <div class="notice strong-notice">La app no usa IA para modificar, resumir, sustituir o completar contenido jurídico. La Base Legal se reproduce desde una plantilla maestra.</div>
-        <article class="card mt-24"><div class="section-title-row"><div><h3>Plantilla maestra activa</h3><p>7 cuerpos normativos configurados.</p></div><button class="btn btn-light" id="previewLegalBtn">Vista previa</button></div><div class="legal-list" id="legalList"></div></article>
-        <article class="card mt-24"><div class="section-title-row"><div><h3>Vista previa de contenido</h3><p>Los considerandos se generan con sangría colgante y “Que,” en cursiva.</p></div></div><div class="document-preview" id="legalPreview"></div></article>
-      </section>
+    <section id="view-configuracion" class="view">
+      <div class="section-heading"><div><p class="eyebrow">Institucional</p><h2>Configuración</h2><p>Datos comunes utilizados por la generación de documentos.</p></div></div>
+      <div class="grid two">
+        <article class="card"><h3>Responsables institucionales</h3><div class="static-fields"><div><span>Elaborado por</span><strong>Mgs. Jefferson Villarreal</strong><small>Gestor de Procesos Académicos</small></div><div><span>Revisado por</span><strong>Ing. Martha Tomalá</strong><small>Coordinadora General de Carreras</small></div><div><span>Aprobado por</span><strong>Dr. Alex León</strong><small>Vicerrector</small></div></div></article>
+        <article class="card"><h3>Logotipo institucional</h3><label class="btn btn-secondary file-label">Cargar imagen<input id="logoInput" type="file" accept="image/png,image/jpeg,image/webp" hidden></label><button class="btn btn-light" id="removeLogoBtn">Quitar</button><div class="logo-preview" id="logoPreview">Sin logotipo cargado</div></article>
+      </div>
 
-      <section id="view-dnc-alineacion" class="view">
-        <div class="section-heading"><div><p class="eyebrow">DNC · Sección 3</p><h2>Alineación Institucional</h2><p>Texto institucional fijo con referencias institucionales y externas controladas.</p></div><span class="status ready">Automática</span></div>
-        <div class="notice">Esta sección no usa Excel, docentes, carreras, encuestas, cantidades ni resultados. Consume únicamente los instrumentos institucionales vigentes configurados.</div>
-        <article class="card mt-24"><div class="section-title-row"><div><h3>Instrumentos utilizados</h3><p>PEDI, POA, Manual de Procesos y Modelo CACES vigente.</p></div><button class="btn btn-light" id="previewAlignmentBtn">Vista previa</button></div><div class="legal-list" id="alignmentSources"></div></article>
-        <article class="card mt-24"><div class="section-title-row"><div><h3>Vista previa de contenido</h3><p>3.1, 3.2 y 3.3 usan párrafos corridos; 3.4 conserva la estructura jerárquica y listas del bloque CACES.</p></div></div><div class="document-preview" id="alignmentPreview"></div></article>
-      </section>
+      <article class="card mt-24"><h3>Instrumentos institucionales vigentes</h3><div class="inline-form"><label class="full">PEDI vigente<input id="configPedi" type="text"></label><label class="full">POA vigente<input id="configPoa" type="text"></label><label class="full">Manual de Procesos vigente<input id="configManual" type="text"></label><label class="full">Modelo CACES vigente<input id="configCacesModel" type="text"></label><label>Año/versión CACES<input id="configCacesYear" type="text"></label><label>Herramienta de encuesta<input id="configSurveyTool" type="text" placeholder="Microsoft Forms"></label></div><div class="form-actions"><button class="btn btn-primary" id="saveInstitutionalConfigBtn">Guardar configuración</button><button class="btn btn-light" id="validateCacesBtn">Validar bloque CACES actual</button></div><div id="cacesValidationNotice" class="info-box"></div></article>
 
-      <section id="view-configuracion" class="view">
-        <div class="section-heading"><div><p class="eyebrow">Institucional</p><h2>Configuración</h2><p>Datos comunes usados por la generación de documentos.</p></div></div>
-        <div class="grid two">
-          <article class="card"><h3>Responsables institucionales</h3><div class="static-fields"><div><span>Elaborado por</span><strong>Mgs. Jefferson Villarreal</strong><small>Gestor de Procesos Académicos</small></div><div><span>Revisado por</span><strong>Ing. Martha Tomalá</strong><small>Coordinadora General de Carreras</small></div><div><span>Aprobado por</span><strong>Dr. Alex León</strong><small>Vicerrector</small></div></div></article>
-          <article class="card"><h3>Logotipo institucional</h3><p>La portada reserva el espacio oficial. Puedes cargar el logotipo para insertarlo en el PDF generado.</p><label class="btn btn-secondary file-label">Cargar imagen<input id="logoInput" type="file" accept="image/png,image/jpeg,image/webp" hidden /></label><button class="btn btn-light" id="removeLogoBtn">Quitar</button><div class="logo-preview" id="logoPreview">Sin logotipo cargado</div></article>
-        </div>
-        <article class="card mt-24">
-          <div class="section-title-row"><div><h3>Instrumentos institucionales vigentes</h3><p>Se configuran una vez y la Sección 3 los consume automáticamente.</p></div><span class="status ready" id="cacesValidationStatus">Validado para generación</span></div>
-          <div class="config-form-grid mt-24">
-            <label>PEDI vigente<input id="pediInput" type="text" /></label>
-            <label>POA vigente<input id="poaInput" type="text" /></label>
-            <label class="span-2">Manual de Procesos Académicos vigente<input id="manualInput" type="text" /></label>
-            <label class="span-2">Nombre completo del Modelo de Evaluación Externa del CACES vigente<textarea id="cacesModelInput" rows="3"></textarea></label>
-            <label>Año / versión del modelo CACES<input id="cacesYearInput" type="text" /></label>
-            <label class="check-field"><input id="cacesValidatedInput" type="checkbox" /> Mantener bloque CACES como validado</label>
-          </div>
-          <div class="notice strong-notice">Cambiar el nombre del modelo CACES invalida automáticamente el bloque. No se actualizan criterios, subcriterios o indicadores sustituyendo únicamente el año.</div>
-          <div class="form-actions"><button class="btn btn-primary" id="saveInstitutionalConfigBtn">Guardar instrumentos</button><button class="btn btn-secondary" id="validateCacesBtn">Validar bloque CACES actual</button></div>
-        </article>
-      </section>
-    </main>
-  </div>
+      <article class="card mt-24"><h3>Imágenes fijas de Metodología</h3><p>Estas imágenes pertenecen a la plantilla institucional y no se cargan por período. Si el ITSQMET cambia las ilustraciones, se reemplazan una sola vez aquí.</p><div class="config-image-grid"><div class="config-image-box"><strong>Imagen 1 · Diagnóstico (antes de 4.1)</strong><div class="candidate-actions mt-24"><label class="btn btn-secondary file-label">Cargar imagen<input id="methodImageDiagnosticInput" type="file" accept="image/png,image/jpeg,image/webp" hidden></label><button class="btn btn-light" id="removeMethodImageDiagnosticBtn">Quitar</button></div><div class="logo-preview" id="methodImageDiagnosticPreview">Sin imagen configurada</div></div><div class="config-image-box"><strong>Imagen 2 · Fuentes (en 4.2)</strong><div class="candidate-actions mt-24"><label class="btn btn-secondary file-label">Cargar imagen<input id="methodImageSourcesInput" type="file" accept="image/png,image/jpeg,image/webp" hidden></label><button class="btn btn-light" id="removeMethodImageSourcesBtn">Quitar</button></div><div class="logo-preview" id="methodImageSourcesPreview">Sin imagen configurada</div></div></div></article>
+    </section>
+  </main>
+</div>
 
-  <dialog id="pdfPreviewDialog" class="preview-dialog"><div class="dialog-head"><div><p class="eyebrow">Vista previa</p><h2>Detección de Necesidades de Capacitación</h2></div><button class="icon-btn" id="closePreviewBtn" aria-label="Cerrar">×</button></div><div class="dialog-body"><div id="printDocument" class="print-document"></div></div><div class="dialog-actions"><button class="btn btn-secondary" id="closePreviewBottomBtn">Cerrar</button><button class="btn btn-primary" id="downloadFromPreviewBtn">Descargar PDF</button></div></dialog>
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script src="app.js"></script>
+<dialog id="pdfPreviewDialog" class="preview-dialog"><div class="dialog-head"><div><p class="eyebrow">Vista previa</p><h2>Detección de Necesidades de Capacitación</h2></div><button class="icon-btn" id="closePreviewBtn" aria-label="Cerrar">×</button></div><div class="dialog-body"><div id="printDocument" class="print-document"></div></div><div class="dialog-actions"><button class="btn btn-secondary" id="closePreviewBottomBtn">Cerrar</button><button class="btn btn-primary" id="downloadFromPreviewBtn">Descargar PDF</button></div></dialog>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="app.js"></script>
 </body>
 </html>
