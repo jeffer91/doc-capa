@@ -286,6 +286,18 @@
     document.getElementById('workflowPdfBtn').addEventListener('click',()=>proxy('#downloadDncBtn'));
   }
 
+  function prepareEvidenceView(){
+    const view=document.getElementById('view-dnc-anexos');
+    if(!view||view.dataset.workflowPrepared==='1')return;
+    view.dataset.workflowPrepared='1';
+    const eyebrow=view.querySelector('.section-heading .eyebrow');
+    const title=view.querySelector('.section-heading h2');
+    const desc=view.querySelector('.section-heading p:not(.eyebrow)');
+    if(eyebrow)eyebrow.textContent='Detección de Necesidades';
+    if(title)title.textContent='Evidencias del DNC';
+    if(desc)desc.textContent='Carga y organiza las evidencias que respaldarán los anexos del documento.';
+  }
+
   function openTemplatePanel(mode){
     if(!hasPeriod()){
       toast('Selecciona o crea un período global antes de trabajar con plantillas.');
@@ -340,7 +352,7 @@
   }
 
   function updateWorkflow(){
-    createLanding();createDncView();rebuildSidebar();
+    createLanding();createDncView();rebuildSidebar();prepareEvidenceView();
     const issues=hasPeriod()?safeIssues():[];
     const isApproved=approved();
     const ready=hasPeriod()&&issues.length===0;
@@ -388,6 +400,7 @@
     rebuildSidebar();
     createLanding();
     createDncView();
+    prepareEvidenceView();
     updateWorkflow();
   }
 
