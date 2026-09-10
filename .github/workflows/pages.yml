@@ -36,6 +36,7 @@ jobs:
           node --check annexes.js
           node --check workflow-ui.js
           node --check periods-global.js
+          node --check careers-simple.js
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
