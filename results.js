@@ -18,6 +18,7 @@
     .then(()=>loadScript('annexes.js'))
     .then(()=>loadScript('workflow-ui.js'))
     .then(()=>loadScript('periods-global.js'))
+    .then(()=>loadScript('careers-simple.js'))
     .catch(error=>{
       console.error(error);
       const toast=document.getElementById('toast');
