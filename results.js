@@ -12,8 +12,11 @@
   loadScript('consistency.js')
     .then(()=>loadScript('results-core.js'))
     .then(()=>loadScript('summary.js'))
+    .then(()=>loadScript('conclusions.js'))
     .then(()=>loadScript('recommendations.js'))
+    .then(()=>loadScript('bibliography.js'))
     .then(()=>loadScript('annexes.js'))
+    .then(()=>loadScript('workflow-ui.js'))
     .catch(error=>{
       console.error(error);
       const toast=document.getElementById('toast');
