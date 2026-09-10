@@ -9,13 +9,16 @@
     });
   }
 
-  loadScript('results-core.js')
+  loadScript('consistency.js')
+    .then(()=>loadScript('results-core.js'))
     .then(()=>loadScript('summary.js'))
+    .then(()=>loadScript('recommendations.js'))
+    .then(()=>loadScript('annexes.js'))
     .catch(error=>{
       console.error(error);
       const toast=document.getElementById('toast');
       if(toast){
-        toast.textContent='No se pudieron cargar los módulos de Resultados/Resumen Ejecutivo.';
+        toast.textContent='No se pudieron cargar todos los módulos del DNC.';
         toast.classList.add('show');
       }
     });
