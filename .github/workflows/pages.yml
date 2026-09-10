@@ -27,8 +27,11 @@ jobs:
         run: |
           node --check app.js
           node --check results.js
+          node --check consistency.js
           node --check results-core.js
           node --check summary.js
+          node --check recommendations.js
+          node --check annexes.js
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
