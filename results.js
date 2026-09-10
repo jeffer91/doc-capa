@@ -17,6 +17,7 @@
     .then(()=>loadScript('bibliography.js'))
     .then(()=>loadScript('annexes.js'))
     .then(()=>loadScript('workflow-ui.js'))
+    .then(()=>loadScript('periods-global.js'))
     .catch(error=>{
       console.error(error);
       const toast=document.getElementById('toast');
