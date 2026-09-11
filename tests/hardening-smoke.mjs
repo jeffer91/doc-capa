@@ -1,16 +1,16 @@
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 
-const hardening=fs.readFileSync('institutional-hardening.js','utf8');
 const governance=fs.readFileSync('institutional-governance.js','utf8');
 const imports=fs.readFileSync('import-hardening.js','utf8');
 const snapshots=fs.readFileSync('official-snapshots.js','utf8');
 const bibliography=fs.readFileSync('bibliography.js','utf8');
 const loader=fs.readFileSync('results.js','utf8');
 
-assert(loader.includes("loadScript('institutional-hardening.js')"),'El módulo de hardening debe cargarse');
-assert(loader.indexOf("loadScript('institutional-hardening.js')")>loader.indexOf("loadScript('dnc-manifest.js')"),'Hardening debe cargarse después del manifiesto');
-for(const moduleName of ['institutional-governance.js','import-hardening.js','official-snapshots.js'])assert(hardening.includes(moduleName),`El loader de hardening debe cargar ${moduleName}`);
+for(const moduleName of ['institutional-governance.js','import-hardening.js','official-snapshots.js'])assert(loader.includes(`loadScript('${moduleName}')`),`results.js debe cargar directamente ${moduleName}`);
+assert(loader.indexOf("loadScript('institutional-governance.js')")>loader.indexOf("loadScript('dnc-manifest.js')"),'Gobierno institucional debe cargarse después del manifiesto');
+assert(loader.indexOf("loadScript('official-snapshots.js')")>loader.indexOf("loadScript('import-hardening.js')"),'Snapshots debe cargarse después del endurecimiento de importaciones');
+assert(!loader.includes("loadScript('institutional-hardening.js')"),'No debe quedar el loader intermedio institucional-hardening.js');
 
 for(const art of ['artículo 12','artículo 13','artículo 156'])assert(governance.includes(art),`Falta referencia legal verificada: ${art}`);
 assert(!governance.includes('artículo 155'),'No debe reintroducirse el artículo 155 derogado como fundamento');
