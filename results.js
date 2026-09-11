@@ -23,7 +23,10 @@
     .then(()=>loadScript('document-core.js'))
     .then(()=>loadScript('dnc-calculations.js'))
     .then(()=>loadScript('dnc-manifest.js'))
-    .then(()=>loadScript('institutional-hardening.js'))
+    .then(()=>loadScript('institutional-governance.js'))
+    .then(()=>loadScript('import-hardening.js'))
+    .then(()=>loadScript('official-snapshots.js'))
+    .then(()=>loadScript('document-layout.js'))
     .catch(error=>{
       console.error(error);
       const toast=document.getElementById('toast');
