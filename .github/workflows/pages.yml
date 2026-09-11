@@ -41,6 +41,9 @@ jobs:
           node --check dnc-calculations.js
           node --check dnc-manifest.js
           node --check institutional-hardening.js
+          node --check institutional-governance.js
+          node --check import-hardening.js
+          node --check official-snapshots.js
           node --check tests/architecture-smoke.mjs
           node --check tests/calculations-smoke.mjs
           node --check tests/hardening-smoke.mjs
