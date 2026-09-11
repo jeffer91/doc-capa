@@ -27,6 +27,7 @@
     .then(()=>loadScript('import-hardening.js'))
     .then(()=>loadScript('official-snapshots.js'))
     .then(()=>loadScript('document-layout.js'))
+    .then(()=>loadScript('svd-ui.js'))
     .catch(error=>{
       console.error(error);
       const toast=document.getElementById('toast');
