@@ -8,9 +8,9 @@ Período global → Portada y cabecera → Carreras → Cinco fuentes del diagn�
 
 ## Arquitectura
 
-La aplicación se ejecuta en el navegador, sin backend. `app.js` contiene el estado base y los renderizadores institucionales iniciales. `results.js` carga secuencialmente los módulos del DNC. `document-core.js` administra el manifiesto documental, diagnóstico por sección, trazabilidad y versionado técnico. `dnc-calculations.js` expone cálculos canónicos compartidos. `dnc-manifest.js` registra el documento DNC y sus 11 secciones.
+La aplicación se ejecuta en el navegador, sin backend. `app.js` contiene el estado base y los renderizadores institucionales iniciales. `results.js` carga secuencialmente los módulos del DNC. `document-core.js` administra el manifiesto documental, diagnóstico por sección, trazabilidad y versionado técnico. `dnc-calculations.js` expone los cálculos canónicos compartidos y se carga antes de Resumen, Conclusiones y Recomendaciones para que esas secciones no mantengan una segunda lógica de cálculo.
 
-Los controles institucionales se cargan directamente y en orden desde `results.js`: `institutional-governance.js`, `import-hardening.js` y `official-snapshots.js`. Ya no existe un loader intermedio para estos módulos. `document-layout.js` fija la estructura pública del documento y `svd-ui.js` se carga al final como capa visual final, para que ningún módulo heredado vuelva a alterar la navegación visible.
+Los controles institucionales se cargan directamente y en orden desde `results.js`: `institutional-governance.js`, `import-hardening.js` y `official-snapshots.js`. `document-layout.js` fija Portada y Cabecera. `document-pdf-engine.js` es el punto final de generación del PDF completo y consume el manifiesto documental, sin depender de los antiguos encadenados de `downloadPdf`. `svd-ui.js` se carga al final y constituye la navegación visible definitiva.
 
 El orden de carga en `results.js` es parte del contrato técnico y no debe modificarse sin ejecutar las pruebas.
 
@@ -19,13 +19,14 @@ El orden de carga en `results.js` es parte del contrato técnico y no debe modif
 La interfaz sigue la lógica **Período → Documentos → Secciones → Contenido**:
 
 - el período global permanece visible en la zona superior;
-- el menú lateral deja de ser la navegación principal;
 - los documentos aparecen en un panel horizontal superior;
 - el DNC se abre directamente, sin dashboard inicial obligatorio;
-- las secciones reales del documento aparecen como pestañas compactas;
-- Portada y Cabecera forman parte de esas pestañas del documento;
+- las secciones del documento aparecen como pestañas compactas;
+- Portada y Cabecera forman parte de esas pestañas de trabajo;
 - Períodos, Diagnóstico y Configuración permanecen como utilidades secundarias;
-- los títulos y tarjetas se compactan y las señales de estado usan verde para completo, amarillo para pendiente y rojo únicamente para error/bloqueo.
+- los títulos y tarjetas son compactos y las señales de estado usan verde para completo, amarillo para pendiente y rojo únicamente para error o bloqueo.
+
+Los nodos heredados de `sidebar` e `Inicio` pueden existir durante el arranque porque módulos históricos todavía los consultan, pero **SVD 2.0 los elimina físicamente del DOM al finalizar la inicialización**. Ya no quedan ocultos esperando reaparecer por CSS. Si un módulo anterior falla, el cargador intenta inicializar SVD 2.0 de todos modos y muestra un estado de error en lugar de restaurar silenciosamente la interfaz vieja.
 
 En pantallas pequeñas se conserva la misma lógica y los paneles horizontales pueden desplazarse sin cambiar el orden mental de la aplicación.
 
@@ -37,6 +38,18 @@ La interfaz dispone de dos apartados independientes:
 - **Cabecera:** unidad responsable, nombre del documento, código base, período y logotipo institucional.
 
 Ambos componentes se almacenan en `state.documentMeta`, quedan asociados al período activo y forman parte del snapshot oficial cuando se aprueba el DNC. La portada sigue siendo una sección real del manifiesto documental; la cabecera es un componente reutilizable y no una sección numerada del contenido.
+
+## Cálculos y secciones derivadas
+
+`dnc-calculations.js` es la fuente compartida para carreras analizadas, clusters, recurrencia, necesidad base, alcance, resultados por carrera y capacitaciones específicas. **Resumen Ejecutivo, Conclusiones y Recomendaciones consumen `window.DOC_CAPA_DNC`** y ya no recalculan clusters o alcance de forma independiente.
+
+La Sección 5 (Resultados) continúa siendo el módulo operativo donde se capturan y presentan los resultados de base; las secciones posteriores solo derivan contenido a partir de esa información.
+
+## PDF documental
+
+`document-pdf-engine.js` construye el PDF completo siguiendo el orden del manifiesto registrado por el Core. Usa los renderizadores institucionales exactos disponibles para Portada y secciones iniciales, y el renderer documental genérico para las secciones derivadas restantes. El motor expone `window.DOC_CAPA_PDF` y fija `window.downloadPdf` como salida pública final.
+
+Los módulos de secciones ya no necesitan interceptar `jsPDF.API.save` para agregarse al documento final. Las versiones oficiales continúan capturando el PDF resultante y su hash mediante `official-snapshots.js`.
 
 ## Persistencia
 
@@ -74,9 +87,9 @@ La Base Legal utiliza referencias verificadas a la Constitución, la LOES y el *
 
 ## Desarrollo y pruebas
 
-Antes de fusionar cambios a `main`, GitHub Actions ejecuta validación de sintaxis y las familias de pruebas de arquitectura, cálculos, controles institucionales, estructura documental y SVD 2.0.
+Antes de fusionar cambios a `main`, GitHub Actions ejecuta validación de sintaxis y pruebas de arquitectura, cálculos, controles institucionales, estructura documental, navegación SVD 2.0, limpieza de runtime, motor PDF y secciones derivadas canónicas.
 
-Los cambios deben entrar mediante una rama y Pull Request. El CI valida sintaxis, arquitectura, cálculos, controles institucionales, estructura independiente de portada/cabecera y navegación visual antes del despliegue a GitHub Pages.
+Los cambios deben entrar mediante una rama y Pull Request antes del despliegue a GitHub Pages.
 
 ## Limitaciones conocidas
 
