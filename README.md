@@ -10,9 +10,24 @@ Período global → Portada y cabecera → Carreras → Cinco fuentes del diagn�
 
 La aplicación se ejecuta en el navegador, sin backend. `app.js` contiene el estado base y los renderizadores institucionales iniciales. `results.js` carga secuencialmente los módulos del DNC. `document-core.js` administra el manifiesto documental, diagnóstico por sección, trazabilidad y versionado técnico. `dnc-calculations.js` expone cálculos canónicos compartidos. `dnc-manifest.js` registra el documento DNC y sus 11 secciones.
 
-Los controles institucionales se cargan directamente y en orden desde `results.js`: `institutional-governance.js`, `import-hardening.js` y `official-snapshots.js`. Ya no existe un loader intermedio para estos módulos. `document-layout.js` se carga al final y fija la estructura pública del documento: portada, cabecera, vista completa y punto único de descarga PDF.
+Los controles institucionales se cargan directamente y en orden desde `results.js`: `institutional-governance.js`, `import-hardening.js` y `official-snapshots.js`. Ya no existe un loader intermedio para estos módulos. `document-layout.js` fija la estructura pública del documento y `svd-ui.js` se carga al final como capa visual final, para que ningún módulo heredado vuelva a alterar la navegación visible.
 
 El orden de carga en `results.js` es parte del contrato técnico y no debe modificarse sin ejecutar las pruebas.
+
+## SVD 2.0 · navegación visual
+
+La interfaz sigue la lógica **Período → Documentos → Secciones → Contenido**:
+
+- el período global permanece visible en la zona superior;
+- el menú lateral deja de ser la navegación principal;
+- los documentos aparecen en un panel horizontal superior;
+- el DNC se abre directamente, sin dashboard inicial obligatorio;
+- las secciones reales del documento aparecen como pestañas compactas;
+- Portada y Cabecera forman parte de esas pestañas del documento;
+- Períodos, Diagnóstico y Configuración permanecen como utilidades secundarias;
+- los títulos y tarjetas se compactan y las señales de estado usan verde para completo, amarillo para pendiente y rojo únicamente para error/bloqueo.
+
+En pantallas pequeñas se conserva la misma lógica y los paneles horizontales pueden desplazarse sin cambiar el orden mental de la aplicación.
 
 ## Portada y cabecera
 
@@ -59,17 +74,9 @@ La Base Legal utiliza referencias verificadas a la Constitución, la LOES y el *
 
 ## Desarrollo y pruebas
 
-Antes de fusionar cambios a `main`, GitHub Actions ejecuta:
+Antes de fusionar cambios a `main`, GitHub Actions ejecuta validación de sintaxis y las familias de pruebas de arquitectura, cálculos, controles institucionales, estructura documental y SVD 2.0.
 
-```bash
-node --check *.js
-node tests/architecture-smoke.mjs
-node tests/calculations-smoke.mjs
-node tests/hardening-smoke.mjs
-node tests/document-layout-smoke.mjs
-```
-
-Los cambios deben entrar mediante una rama y Pull Request. El CI valida sintaxis, arquitectura, cálculos, controles institucionales y la estructura independiente de portada/cabecera antes del despliegue a GitHub Pages.
+Los cambios deben entrar mediante una rama y Pull Request. El CI valida sintaxis, arquitectura, cálculos, controles institucionales, estructura independiente de portada/cabecera y navegación visual antes del despliegue a GitHub Pages.
 
 ## Limitaciones conocidas
 
