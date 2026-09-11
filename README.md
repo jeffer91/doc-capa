@@ -4,18 +4,29 @@ Aplicación web estática para gestionar la **Detección de Necesidades de Capac
 
 ## Flujo operativo
 
-Período global → Carreras → Cinco fuentes del diagnóstico → Cinco necesidades candidatas por carrera → Priorización y validación del coordinador → Resultados → Capacitación genérica y específicas → Anexos → Validación → Aprobación → PDF.
+Período global → Portada y cabecera → Carreras → Cinco fuentes del diagnóstico → Cinco necesidades candidatas por carrera → Priorización y validación del coordinador → Resultados → Capacitación genérica y específicas → Anexos → Validación → Aprobación → PDF.
 
 ## Arquitectura
 
-La aplicación se ejecuta en el navegador, sin backend. `app.js` contiene el estado base y los renderizadores institucionales iniciales. `results.js` carga secuencialmente los módulos del DNC. `document-core.js` administra el manifiesto documental, diagnóstico por sección, trazabilidad y versionado técnico. `dnc-calculations.js` expone cálculos canónicos compartidos. `dnc-manifest.js` registra el documento DNC y sus 11 secciones. `institutional-hardening.js` añade controles de integridad documental, contexto por período, validación CACES auditable, modo de importación, snapshots oficiales en IndexedDB y controles de consistencia adicionales.
+La aplicación se ejecuta en el navegador, sin backend. `app.js` contiene el estado base y los renderizadores institucionales iniciales. `results.js` carga secuencialmente los módulos del DNC. `document-core.js` administra el manifiesto documental, diagnóstico por sección, trazabilidad y versionado técnico. `dnc-calculations.js` expone cálculos canónicos compartidos. `dnc-manifest.js` registra el documento DNC y sus 11 secciones.
+
+Los controles institucionales se cargan directamente y en orden desde `results.js`: `institutional-governance.js`, `import-hardening.js` y `official-snapshots.js`. Ya no existe un loader intermedio para estos módulos. `document-layout.js` se carga al final y fija la estructura pública del documento: portada, cabecera, vista completa y punto único de descarga PDF.
 
 El orden de carga en `results.js` es parte del contrato técnico y no debe modificarse sin ejecutar las pruebas.
+
+## Portada y cabecera
+
+La interfaz dispone de dos apartados independientes:
+
+- **Portada:** título, subtítulo y responsables de elaboración, revisión y aprobación.
+- **Cabecera:** unidad responsable, nombre del documento, código base, período y logotipo institucional.
+
+Ambos componentes se almacenan en `state.documentMeta`, quedan asociados al período activo y forman parte del snapshot oficial cuando se aprueba el DNC. La portada sigue siendo una sección real del manifiesto documental; la cabecera es un componente reutilizable y no una sección numerada del contenido.
 
 ## Persistencia
 
 - Estado de trabajo y registro de períodos: `localStorage`.
-- Contexto institucional por período: `doc-capa-period-context-v1`.
+- Contexto institucional por período, incluida la estructura de portada/cabecera: `doc-capa-period-context-v1`.
 - Trazabilidad de importaciones: `doc-capa-import-trace-v2`.
 - Metadatos de versiones oficiales: `doc-capa-official-history-v1` y `doc-capa-document-versions-v1`.
 - Copias oficiales inmutables del estado y PDF, además de respaldos de trabajo: `IndexedDB`, base `doc-capa-official-v1`.
@@ -55,9 +66,10 @@ node --check *.js
 node tests/architecture-smoke.mjs
 node tests/calculations-smoke.mjs
 node tests/hardening-smoke.mjs
+node tests/document-layout-smoke.mjs
 ```
 
-Los cambios deben entrar mediante una rama y Pull Request. El CI valida sintaxis, arquitectura, cálculos y controles institucionales antes del despliegue a GitHub Pages.
+Los cambios deben entrar mediante una rama y Pull Request. El CI valida sintaxis, arquitectura, cálculos, controles institucionales y la estructura independiente de portada/cabecera antes del despliegue a GitHub Pages.
 
 ## Limitaciones conocidas
 
