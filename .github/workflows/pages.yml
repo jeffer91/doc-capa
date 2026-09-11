@@ -38,6 +38,8 @@ jobs:
           node --check periods-global.js
           node --check careers-simple.js
           node --check template-workbench.js
+          node --check document-core.js
+          node --check dnc-manifest.js
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
