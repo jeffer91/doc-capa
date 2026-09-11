@@ -49,6 +49,7 @@ jobs:
           node --check tests/hardening-smoke.mjs
           node --check tests/document-layout-smoke.mjs
           node --check tests/legacy-public-entry-smoke.mjs
+          node --check tests/document-meta-period-smoke.mjs
       - name: Run smoke tests
         run: |
           node tests/architecture-smoke.mjs
@@ -56,6 +57,7 @@ jobs:
           node tests/hardening-smoke.mjs
           node tests/document-layout-smoke.mjs
           node tests/legacy-public-entry-smoke.mjs
+          node tests/document-meta-period-smoke.mjs
 
   deploy:
     if: github.event_name != 'pull_request'
