@@ -1,7 +1,9 @@
-name: Deploy static site to Pages
+name: Validate and deploy static site
 
 on:
   push:
+    branches: ["main"]
+  pull_request:
     branches: ["main"]
   workflow_dispatch:
 
@@ -11,14 +13,11 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  validate:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -39,7 +38,25 @@ jobs:
           node --check careers-simple.js
           node --check template-workbench.js
           node --check document-core.js
+          node --check dnc-calculations.js
           node --check dnc-manifest.js
+          node --check tests/architecture-smoke.mjs
+          node --check tests/calculations-smoke.mjs
+      - name: Run architecture smoke tests
+        run: |
+          node tests/architecture-smoke.mjs
+          node tests/calculations-smoke.mjs
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: validate
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

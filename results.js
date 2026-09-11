@@ -21,6 +21,7 @@
     .then(()=>loadScript('careers-simple.js'))
     .then(()=>loadScript('template-workbench.js'))
     .then(()=>loadScript('document-core.js'))
+    .then(()=>loadScript('dnc-calculations.js'))
     .then(()=>loadScript('dnc-manifest.js'))
     .catch(error=>{
       console.error(error);
