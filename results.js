@@ -9,31 +9,51 @@
     });
   }
 
-  loadScript('consistency.js')
-    .then(()=>loadScript('results-core.js'))
-    .then(()=>loadScript('summary.js'))
-    .then(()=>loadScript('conclusions.js'))
-    .then(()=>loadScript('recommendations.js'))
-    .then(()=>loadScript('bibliography.js'))
-    .then(()=>loadScript('annexes.js'))
-    .then(()=>loadScript('workflow-ui.js'))
-    .then(()=>loadScript('periods-global.js'))
-    .then(()=>loadScript('careers-simple.js'))
-    .then(()=>loadScript('template-workbench.js'))
-    .then(()=>loadScript('document-core.js'))
-    .then(()=>loadScript('dnc-calculations.js'))
-    .then(()=>loadScript('dnc-manifest.js'))
-    .then(()=>loadScript('institutional-governance.js'))
-    .then(()=>loadScript('import-hardening.js'))
-    .then(()=>loadScript('official-snapshots.js'))
-    .then(()=>loadScript('document-layout.js'))
-    .then(()=>loadScript('svd-ui.js'))
-    .catch(error=>{
+  const modules=[
+    'consistency.js',
+    'results-core.js',
+    'summary.js',
+    'conclusions.js',
+    'recommendations.js',
+    'bibliography.js',
+    'annexes.js',
+    'workflow-ui.js',
+    'periods-global.js',
+    'careers-simple.js',
+    'template-workbench.js',
+    'document-core.js',
+    'dnc-calculations.js',
+    'dnc-manifest.js',
+    'institutional-governance.js',
+    'import-hardening.js',
+    'official-snapshots.js',
+    'document-layout.js',
+    'document-pdf-engine.js'
+  ];
+
+  async function boot(){
+    let failure=null;
+    for(const src of modules){
+      try{await loadScript(src);}catch(error){failure={src,error};console.error(error);break;}
+    }
+
+    // SVD 2.0 se intenta cargar siempre. Así, un fallo previo no hace reaparecer
+    // silenciosamente la navegación lateral heredada como interfaz principal.
+    try{await loadScript('svd-ui.js');}
+    catch(error){
       console.error(error);
+      failure=failure||{src:'svd-ui.js',error};
+    }
+
+    if(failure){
       const toast=document.getElementById('toast');
       if(toast){
-        toast.textContent='No se pudieron cargar todos los módulos del DNC.';
+        toast.textContent=`No se pudo cargar completamente DOC-CAPA (${failure.src}).`;
         toast.classList.add('show');
       }
-    });
+      document.body.classList.add('doccapa-load-error');
+    }
+  }
+
+  boot();
 })();
