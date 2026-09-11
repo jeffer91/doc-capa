@@ -12,6 +12,8 @@
   const modules=[
     'consistency.js',
     'results-core.js',
+    'document-core.js',
+    'dnc-calculations.js',
     'summary.js',
     'conclusions.js',
     'recommendations.js',
@@ -21,8 +23,6 @@
     'periods-global.js',
     'careers-simple.js',
     'template-workbench.js',
-    'document-core.js',
-    'dnc-calculations.js',
     'dnc-manifest.js',
     'institutional-governance.js',
     'import-hardening.js',
