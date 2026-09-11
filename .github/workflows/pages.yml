@@ -54,6 +54,7 @@ jobs:
           node --check tests/document-meta-period-smoke.mjs
           node --check tests/svd-ui-smoke.mjs
           node --check tests/runtime-cleanup-smoke.mjs
+          node --check tests/derived-canonical-smoke.mjs
       - name: Run smoke tests
         run: |
           node tests/architecture-smoke.mjs
@@ -64,6 +65,7 @@ jobs:
           node tests/document-meta-period-smoke.mjs
           node tests/svd-ui-smoke.mjs
           node tests/runtime-cleanup-smoke.mjs
+          node tests/derived-canonical-smoke.mjs
 
   deploy:
     if: github.event_name != 'pull_request'
