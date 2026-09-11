@@ -23,6 +23,7 @@
     .then(()=>loadScript('document-core.js'))
     .then(()=>loadScript('dnc-calculations.js'))
     .then(()=>loadScript('dnc-manifest.js'))
+    .then(()=>loadScript('institutional-hardening.js'))
     .catch(error=>{
       console.error(error);
       const toast=document.getElementById('toast');

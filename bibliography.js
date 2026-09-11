@@ -1,33 +1,29 @@
 (function(){
   'use strict';
 
-  const REFERENCES=[
-    'CACES. (2024). Modelo de evaluación externa de la calidad de la educación superior. Consejo de Aseguramiento de la Calidad de la Educación Superior.',
-    'Coll, C. (2018). Aprender y enseñar con las TIC: expectativas, realidad y potencialidades. Ediciones Morata.',
-    'Delors, J. (1996). La educación encierra un tesoro. UNESCO.',
-    'Díaz Barriga, F., & Hernández, G. (2010). Estrategias docentes para un aprendizaje significativo: una interpretación constructivista (3.ª ed.). McGraw-Hill.',
-    'Fernández, M., & Montero, L. (2007). La formación del profesorado: nuevas perspectivas. Graó.',
-    'García Aretio, L. (2014). Bases, mediaciones y futuro de la educación a distancia en la sociedad digital. Síntesis.',
-    'Imbernón, F. (2011). Formación docente y profesional: formar para la innovación. Graó.',
-    'LOES. (2018). Ley Orgánica de Educación Superior. Registro Oficial del Ecuador.',
-    'Marcelo, C. (2009). Desarrollo profesional docente: pasado y futuro. Revista de Educación, 350, 15–35.',
-    'Ministerio de Educación del Ecuador. (2016). Lineamientos para la aplicación del Diseño Universal para el Aprendizaje (DUA). MINEDUC.',
-    'Morin, E. (2001). Los siete saberes necesarios para la educación del futuro. UNESCO.',
-    'OCDE. (2019). Panorama de la educación: indicadores de la OCDE. OECD Publishing.',
-    'Perrenoud, P. (2004). Diez nuevas competencias para enseñar. Graó.',
-    'Rué, J. (2012). La formación docente en la universidad: desafíos y propuestas. Octaedro.',
-    'Salinas, J. (2011). Innovación docente y uso de las TIC en educación superior. Universidad de las Islas Baleares.',
-    'Zabalza, M. A. (2012). Competencias docentes del profesorado universitario: calidad y desarrollo profesional. Narcea.'
+  const FIXED_REFERENCES=[
+    'Asamblea Nacional Constituyente del Ecuador. (2008). Constitución de la República del Ecuador. Registro Oficial 449, 20 de octubre de 2008, con sus reformas vigentes.',
+    'Asamblea Nacional del Ecuador. (2010). Ley Orgánica de Educación Superior (LOES). Registro Oficial Suplemento 298, 12 de octubre de 2010, con sus reformas vigentes.',
+    'Consejo de Aseguramiento de la Calidad de la Educación Superior (CACES). (2024). Modelo de Evaluación Externa 2024 con Fines de Acreditación para los Institutos Superiores Técnicos y Tecnológicos.'
   ];
 
   function esc(v){return escapeHtml(v);}
-  function renderBibliographyHtml(){return '<h2>9. Bibliografía</h2>'+REFERENCES.map(r=>`<p class="bibliography-entry">${esc(r)}</p>`).join('');}
+  function institutionalReferences(){
+    const cfg=state.institutionalConfig||{};
+    return [
+      `Instituto Superior Tecnológico Quito Metropolitano (ITSQMET). (s. f.). ${String(cfg.pedi||'Plan Estratégico de Desarrollo Institucional (PEDI)').trim()}. Documento institucional vigente.`,
+      `Instituto Superior Tecnológico Quito Metropolitano (ITSQMET). (s. f.). ${String(cfg.poa||'Plan Operativo Anual (POA)').trim()}. Documento institucional vigente.`,
+      `Instituto Superior Tecnológico Quito Metropolitano (ITSQMET). (s. f.). ${String(cfg.manual||'Manual de Procesos Académicos').trim()}. Documento institucional vigente.`
+    ];
+  }
+  function references(){return [...FIXED_REFERENCES,...institutionalReferences()];}
+  function renderBibliographyHtml(){return '<h2>9. Bibliografía</h2><p>Se incluyen únicamente las fuentes normativas, técnicas e institucionales utilizadas como fundamento directo del documento.</p>'+references().map(r=>`<p class="bibliography-entry">${esc(r)}</p>`).join('');}
 
   function injectUi(){
     const main=document.querySelector('main.main'),config=document.getElementById('view-configuracion');
     if(main&&config&&!document.getElementById('view-dnc-bibliografia')){
       const section=document.createElement('section');section.id='view-dnc-bibliografia';section.className='view';
-      section.innerHTML='<div class="section-heading"><div><p class="eyebrow">DNC · Sección 9</p><h2>Bibliografía</h2><p>Bibliografía institucional del documento base.</p></div><span class="status locked">Controlada</span></div><article class="card mt-24"><div class="document-preview" id="bibliographyPreview"></div></article>';
+      section.innerHTML='<div class="section-heading"><div><p class="eyebrow">DNC · Sección 9</p><h2>Bibliografía</h2><p>Fuentes normativas, técnicas e institucionales verificables utilizadas por el DNC.</p></div><span class="status locked">Controlada</span></div><article class="card mt-24"><div class="document-preview" id="bibliographyPreview"></div></article>';
       main.insertBefore(section,config);
     }
     if(!document.getElementById('bibliographyStyles')){
@@ -42,7 +38,7 @@
   validateDncForFinal=function(){return [...new Set(baseValidate().filter(x=>!(String(x).includes('Sección 7')&&String(x).includes('pendiente de implementación'))&&!(String(x).includes('Sección 9')&&String(x).includes('pendiente de implementación'))))];};
   const baseBuildPrint=buildPrintDocument;buildPrintDocument=function(){return baseBuildPrint()+`<section class="doc-content doc-page">${renderBibliographyHtml()}</section>`;};
 
-  function writeBibliographyPdf(doc){let y=20;y=writeHeading(doc,'9. Bibliografía',2,y);REFERENCES.forEach(r=>{y=writeParagraph(doc,r,y);});}
+  function writeBibliographyPdf(doc){let y=20;y=writeHeading(doc,'9. Bibliografía',2,y);y=writeParagraph(doc,'Se incluyen únicamente las fuentes normativas, técnicas e institucionales utilizadas como fundamento directo del documento.',y);references().forEach(r=>{y=writeParagraph(doc,r,y);});}
   const baseDownloadPdf=downloadPdf;
   downloadPdf=function(){
     const api=jsPDF?.API,originalSave=api?.save;if(typeof originalSave!=='function')return baseDownloadPdf();let restored=false;
