@@ -44,12 +44,14 @@ jobs:
           node --check import-hardening.js
           node --check official-snapshots.js
           node --check document-layout.js
+          node --check svd-ui.js
           node --check tests/architecture-smoke.mjs
           node --check tests/calculations-smoke.mjs
           node --check tests/hardening-smoke.mjs
           node --check tests/document-layout-smoke.mjs
           node --check tests/legacy-public-entry-smoke.mjs
           node --check tests/document-meta-period-smoke.mjs
+          node --check tests/svd-ui-smoke.mjs
       - name: Run smoke tests
         run: |
           node tests/architecture-smoke.mjs
@@ -58,6 +60,7 @@ jobs:
           node tests/document-layout-smoke.mjs
           node tests/legacy-public-entry-smoke.mjs
           node tests/document-meta-period-smoke.mjs
+          node tests/svd-ui-smoke.mjs
 
   deploy:
     if: github.event_name != 'pull_request'
