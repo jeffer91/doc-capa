@@ -1,0 +1,14 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+const core=fs.readFileSync('document-core.js','utf8');
+const manifest=fs.readFileSync('dnc-manifest.js','utf8');
+const loader=fs.readFileSync('results.js','utf8');
+assert(!core.includes('buildPrintDocument'), 'document-core.js no debe depender de buildPrintDocument');
+assert(!manifest.includes('sourceIndex'), 'El manifiesto no debe ubicar secciones por índices frágiles');
+for(const id of ['introPreview','legalPreview','alignmentPreview','methodPreview','resultsPreview','summaryPreview','conclusionsPreview','recommendationsPreview','bibliographyPreview','annexesPreview']) assert(manifest.includes(id),`Falta vista independiente ${id}`);
+const iCore=loader.indexOf("loadScript('document-core.js')");
+const iCalc=loader.indexOf("loadScript('dnc-calculations.js')");
+const iManifest=loader.indexOf("loadScript('dnc-manifest.js')");
+assert(iCore>=0&&iCalc>iCore&&iManifest>iCalc,'Orden de carga Core -> cálculos -> manifiesto inválido');
+for(const legacy of ['audit-fixes.js','postresults.js']) assert(!fs.existsSync(legacy),`${legacy} debe eliminarse del repositorio activo`);
+console.log('architecture-smoke: ok');
