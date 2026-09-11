@@ -40,12 +40,15 @@ jobs:
           node --check document-core.js
           node --check dnc-calculations.js
           node --check dnc-manifest.js
+          node --check institutional-hardening.js
           node --check tests/architecture-smoke.mjs
           node --check tests/calculations-smoke.mjs
-      - name: Run architecture smoke tests
+          node --check tests/hardening-smoke.mjs
+      - name: Run smoke tests
         run: |
           node tests/architecture-smoke.mjs
           node tests/calculations-smoke.mjs
+          node tests/hardening-smoke.mjs
 
   deploy:
     if: github.event_name != 'pull_request'
