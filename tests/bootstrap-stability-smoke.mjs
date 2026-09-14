@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 const loader=fs.readFileSync('results.js','utf8');
 const svd=fs.readFileSync('svd-ui.js','utf8');
 
-assert(loader.includes("const BUILD_ID='20260914-bootstrap-2'"),'El loader debe versionar los módulos para evitar mezclas de caché');
+assert(loader.includes("const BUILD_ID='")&&loader.includes('function versioned(src)'),'El loader debe versionar los módulos para evitar mezclas de caché');
 assert(loader.includes("document.body.classList.add('doccapa-booting')"),'La app debe ocultar el shell heredado durante el arranque');
 assert(loader.includes('Cargando DOC-CAPA'),'Debe existir un estado de carga visible y neutro');
 assert(loader.includes("document.documentElement.dataset.doccapaReady!=='1'"),'El loader debe comprobar que SVD terminó realmente de inicializar');
