@@ -1,7 +1,7 @@
 (function(){
   'use strict';
 
-  const BUILD_ID='20260914-bootstrap-2';
+  const BUILD_ID='20260914-svd21-context-1';
   const MODULE_TIMEOUT=15000;
 
   function installBootstrap(){
@@ -24,7 +24,7 @@
       boot.id='doccapaBoot';
       boot.setAttribute('role','status');
       boot.setAttribute('aria-live','polite');
-      boot.innerHTML='<div class="boot-card"><strong>Cargando DOC-CAPA</strong><span>Preparando período, documentos y secciones…</span></div>';
+      boot.innerHTML='<div class="boot-card"><strong>Cargando DOC-CAPA</strong><span>Preparando períodos y componentes de la aplicación…</span></div>';
       document.body.appendChild(boot);
     }
   }
@@ -88,6 +88,7 @@
     'annexes.js',
     'workflow-ui.js',
     'periods-global.js',
+    'context-guard.js',
     'careers-simple.js',
     'template-workbench.js',
     'dnc-manifest.js',
@@ -107,10 +108,7 @@
     }
 
     try{await loadScript('svd-ui.js');}
-    catch(error){
-      console.error(error);
-      failure=failure||{src:'svd-ui.js',error};
-    }
+    catch(error){console.error(error);failure=failure||{src:'svd-ui.js',error};}
 
     if(!failure&&document.documentElement.dataset.doccapaReady!=='1'){
       failure={src:'svd-ui.js',error:new Error('SVD no confirmó la inicialización completa.')};
@@ -120,10 +118,7 @@
     if(failure){
       failBootstrap(failure);
       const toast=document.getElementById('toast');
-      if(toast){
-        toast.textContent=`No se pudo cargar completamente DOC-CAPA (${failure.src}).`;
-        toast.classList.add('show');
-      }
+      if(toast){toast.textContent=`No se pudo cargar completamente DOC-CAPA (${failure.src}).`;toast.classList.add('show');}
       return;
     }
 
