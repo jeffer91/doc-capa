@@ -35,6 +35,7 @@ jobs:
           node --check annexes.js
           node --check workflow-ui.js
           node --check periods-global.js
+          node --check context-guard.js
           node --check careers-simple.js
           node --check template-workbench.js
           node --check document-core.js
@@ -56,6 +57,7 @@ jobs:
           node --check tests/runtime-cleanup-smoke.mjs
           node --check tests/derived-canonical-smoke.mjs
           node --check tests/bootstrap-stability-smoke.mjs
+          node --check tests/svd21-period-context-smoke.mjs
       - name: Run smoke tests
         run: |
           node tests/architecture-smoke.mjs
@@ -68,6 +70,7 @@ jobs:
           node tests/runtime-cleanup-smoke.mjs
           node tests/derived-canonical-smoke.mjs
           node tests/bootstrap-stability-smoke.mjs
+          node tests/svd21-period-context-smoke.mjs
 
   deploy:
     if: github.event_name != 'pull_request'
