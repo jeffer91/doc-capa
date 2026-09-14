@@ -15,6 +15,12 @@ assert(ui.includes('go(first.view)'),'La app debe abrir directamente la primera 
 assert(ui.includes("eyebrow.textContent='DOC-CAPA'")&&ui.includes("title.textContent='Gestión documental'"),'La cabecera superior debe ser compacta e institucional');
 assert(ui.includes('.svd-doc-status.done{background:var(--ok)}'),'Documento finalizado debe usar señal verde discreta');
 assert(ui.includes('.svd-saved'),'Debe existir confirmación visual de acciones guardadas');
+assert(ui.includes('MINIMAL_ISSUE_LIMIT=4'),'La pantalla Información debe limitar visualmente los pendientes iniciales');
+assert(ui.includes('svd-issues-toggle')&&ui.includes('Ver todos los pendientes'),'Los pendientes deben poder expandirse bajo demanda');
+assert(ui.includes('svd-next-step')&&ui.includes('Siguiente paso'),'Debe existir una guía compacta del siguiente paso');
+assert(ui.includes('svd-primary-action'),'Debe existir una única acción primaria contextual');
+assert(ui.includes("workflow-step:nth-child(-n+2){display:none}"),'La pantalla Información debe evitar métricas redundantes ya visibles en la cabecera');
+assert(ui.includes("workflowUploadBtn:'Cargar datos'")&&ui.includes("workflowPdfBtn:'PDF'"),'Las acciones principales deben usar etiquetas breves');
 assert(loader.includes("loadScript('svd-ui.js')"),'El loader debe cargar SVD 2.0');
 
 console.log('svd-ui-smoke: ok');
