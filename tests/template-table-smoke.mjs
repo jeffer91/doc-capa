@@ -8,7 +8,7 @@ assert(workbench.includes('<th>#</th><th>Plantilla / información</th><th>Descar
 assert(workbench.includes("label:'Carreras del período'"),'Debe existir la fila de carreras');
 assert(workbench.includes("label:'Necesidades por carrera'"),'Debe existir la fila de necesidades por carrera');
 assert(workbench.includes("label:'Resultados de encuesta para Anexo 5'"),'Debe conservarse la duodécima carga');
-assert((workbench.match(/label:'/g)||[]).length===12,'La tabla debe contener exactamente 12 cargas del DNC');
+assert((workbench.match(/correction:'#|correction:'\[/g)||[]).length===12,'La tabla debe contener exactamente 12 cargas del DNC');
 assert(workbench.includes("const uploadLabel=loaded?'Reemplazar':'Subir'"),'Una carga existente debe ofrecer Reemplazar en lugar de Subir');
 assert(workbench.includes('Cargado · ${countLabelFor(def)}'),'El estado debe mostrar cantidad real de datos cargados');
 assert(workbench.includes('Descargar corrección'),'Las filas con errores deben permitir descargar la corrección desde el estado');
