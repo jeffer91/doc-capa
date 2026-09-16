@@ -58,6 +58,7 @@ jobs:
           node --check tests/derived-canonical-smoke.mjs
           node --check tests/bootstrap-stability-smoke.mjs
           node --check tests/svd21-period-context-smoke.mjs
+          node --check tests/template-table-smoke.mjs
       - name: Run smoke tests
         run: |
           node tests/architecture-smoke.mjs
@@ -71,6 +72,7 @@ jobs:
           node tests/derived-canonical-smoke.mjs
           node tests/bootstrap-stability-smoke.mjs
           node tests/svd21-period-context-smoke.mjs
+          node tests/template-table-smoke.mjs
 
   deploy:
     if: github.event_name != 'pull_request'
